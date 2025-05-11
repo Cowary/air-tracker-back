@@ -15,7 +15,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AnimeDto {
-
     Long id;
     String originalTitle;
     String title;

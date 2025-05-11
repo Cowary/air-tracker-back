@@ -18,10 +18,9 @@ public class OpenApiConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("Your API Title")
-                        .version("2.7.0")
-                        .description("This API demonstrates Bearer Token authentication in Springdoc.")
-                        .license(new License().name("Apache 2.0").url("https://www.apache.org/licenses/LICENSE-2.0")))
+                        .title("ArtTracker Back API")
+                        .version("1.0.0")
+                )
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new io.swagger.v3.oas.models.Components()
                         .addSecuritySchemes(securitySchemeName, new SecurityScheme()
