@@ -1,10 +1,7 @@
 package org.cowary.arttrackerback.rest.dto;
 
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -15,7 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MangaDto {
-
     Long id;
     String originalTitle;
     String title;
@@ -32,5 +28,5 @@ public class MangaDto {
     Integer volumesEnd;
     Integer chaptersEnd;
     Long usrId;
-
+    String type = "Manga";
 }

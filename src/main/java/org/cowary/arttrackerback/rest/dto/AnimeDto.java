@@ -36,4 +36,5 @@ public class AnimeDto {
     @Temporal(TemporalType.DATE)
     LocalDate lastUpd;
     Long usrId;
+    String type = "Anime";
 }

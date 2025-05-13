@@ -1,14 +1,7 @@
 package org.cowary.arttrackerback.rest.dto;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.cowary.arttrackerback.entity.tv.Tv;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -32,4 +25,5 @@ public class TvSeasonDto {
     LocalDate lastUpd;
     TvDto tv;
     Long usrId;
+    String type = "Tv";
 }

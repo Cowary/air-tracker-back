@@ -1,7 +1,5 @@
 package org.cowary.arttrackerback.rest.dto;
 
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -29,4 +27,5 @@ public class GameDto {
     @UpdateTimestamp
     LocalDate lastUpd;
     Long usrId;
+    String type = "Game";
 }

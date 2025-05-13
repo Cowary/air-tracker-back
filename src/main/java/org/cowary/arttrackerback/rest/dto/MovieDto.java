@@ -1,7 +1,5 @@
 package org.cowary.arttrackerback.rest.dto;
 
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -16,7 +14,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class MovieDto {
-
     Long id;
     String originalTitle;
     @NotNull
@@ -36,4 +33,5 @@ public class MovieDto {
     LocalDate lastUpd;
     Long usrId;
     Integer integrationId;
+    String type = "Movie";
 }

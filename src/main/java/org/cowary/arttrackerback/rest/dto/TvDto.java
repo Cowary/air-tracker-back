@@ -1,7 +1,5 @@
 package org.cowary.arttrackerback.rest.dto;
 
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,4 +22,5 @@ public class TvDto {
     LocalDate lastUpd;
     Long usrId;
     Integer integrationId;
+    String type = "Tv";
 }

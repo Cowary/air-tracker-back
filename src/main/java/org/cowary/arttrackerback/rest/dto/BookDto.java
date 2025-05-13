@@ -1,7 +1,5 @@
 package org.cowary.arttrackerback.rest.dto;
 
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -14,7 +12,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookDto {
-
     Long id;
     String title;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -28,4 +25,5 @@ public class BookDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate lastUpd;
     Long usrId;
+    String type = "Book";
 }

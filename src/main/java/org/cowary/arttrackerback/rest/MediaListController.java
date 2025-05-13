@@ -8,7 +8,9 @@ import org.cowary.arttrackerback.dbCase.movie.MovieCrud;
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeVolumeCrud;
 import org.cowary.arttrackerback.dbCase.tv.TvSeasonsCrud;
 import org.cowary.arttrackerback.entity.Media;
-import org.cowary.arttrackerback.entity.game.Game;
+import org.cowary.arttrackerback.rest.dto.GameDto;
+import org.cowary.arttrackerback.rest.dto.MediaDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,11 +37,13 @@ public class MediaListController {
     BookCrud bookCrud;
     @Autowired
     TvSeasonsCrud tvSeasonsCrud;
+    ModelMapper modelMapper;
 
     @GetMapping("/media")
-    public ResponseEntity<List<Media>> getMediaList(@RequestHeader long userId,
-                                                    @RequestParam(required = false, defaultValue = "") String status
+    public ResponseEntity<List<MediaDto>> getMediaList(@RequestHeader long userId,
+                                                       @RequestParam(required = false, defaultValue = "") String status
     ) {
+        modelMapper = new ModelMapper();
         List<Media> mediaList = new ArrayList<>();
         mediaList.addAll(animeCrud.getAll(userId, status));
         mediaList.addAll(mangaCrud.getAll(userId, status));
@@ -52,20 +56,27 @@ public class MediaListController {
         mediaList = mediaList.stream()
                 .sorted((o1, o2) -> new Media().getComparator().compare(o1, o2))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(mediaList);
+        List<MediaDto> mediaDtoList = mediaList.stream()
+                .map(source -> modelMapper.map(source, MediaDto.class))
+                .toList();
+        return ResponseEntity.ok(mediaDtoList);
     }
 
     @GetMapping("/play")
-    public ResponseEntity<List<Game>> getPlayList(@RequestHeader long userId,
-                                                  @RequestParam(required = false, defaultValue = "") String status) {
-        return ResponseEntity.ok(
-                gameCrud.getAll(userId, status).stream()
-                        .sorted((o1, o2) -> new Media().getComparator().compare(o1, o2))
-                        .toList());
+    public ResponseEntity<List<GameDto>> getPlayList(@RequestHeader long userId,
+                                                     @RequestParam(required = false, defaultValue = "") String status) {
+        var gameList = gameCrud.getAll(userId, status).stream()
+                .sorted((o1, o2) -> new Media().getComparator().compare(o1, o2))
+                .toList();
+        var gameDtoList = gameList.stream()
+                .map(source -> modelMapper.map(source, GameDto.class))
+                .toList();
+
+        return ResponseEntity.ok(gameDtoList);
     }
 
     @GetMapping("/read")
-    public ResponseEntity<List<Media>> getReadList(@RequestHeader long userId,
+    public ResponseEntity<List<MediaDto>> getReadList(@RequestHeader long userId,
                                                    @RequestParam(required = false, defaultValue = "") String status) {
         List<Media> mediaList = new ArrayList<>();
         mediaList.addAll(mangaCrud.getAll(userId, status));
@@ -75,11 +86,14 @@ public class MediaListController {
         mediaList = mediaList.stream()
                 .sorted((o1, o2) -> new Media().getComparator().compare(o1, o2))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(mediaList);
+        List<MediaDto> mediaDtoList = mediaList.stream()
+                .map(source -> modelMapper.map(source, MediaDto.class))
+                .toList();
+        return ResponseEntity.ok(mediaDtoList);
     }
 
     @GetMapping("/watch")
-    public ResponseEntity<List<Media>> getWatchList(@RequestHeader long userId,
+    public ResponseEntity<List<MediaDto>> getWatchList(@RequestHeader long userId,
                                                     @RequestParam(required = false, defaultValue = "") String status) {
         List<Media> mediaList = new ArrayList<>();
         mediaList.addAll(animeCrud.getAll(userId, status));
@@ -89,6 +103,9 @@ public class MediaListController {
         mediaList = mediaList.stream()
                 .sorted((o1, o2) -> new Media().getComparator().compare(o1, o2))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(mediaList);
+        List<MediaDto> mediaDtoList = mediaList.stream()
+                .map(source -> modelMapper.map(source, MediaDto.class))
+                .toList();
+        return ResponseEntity.ok(mediaDtoList);
     }
 }
