@@ -3,13 +3,14 @@ package org.cowary.arttrackerback.rest.converter;
 import jakarta.validation.constraints.NotNull;
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.anime.Anime;
-import org.cowary.arttrackerback.rest.dto.AnimeDto;
+import org.cowary.arttrackerback.rest.dto.request.AnimeDtoRq;
+import org.cowary.arttrackerback.rest.dto.response.AnimeDtoRs;
 
 @UtilityClass
 public class AnimeDtoConverter {
 
-    public AnimeDto convert(@NotNull Anime anime) {
-        return AnimeDto.builder()
+    public AnimeDtoRs convert(@NotNull Anime anime) {
+        return AnimeDtoRs.builder()
                 .id(anime.getId())
                 .originalTitle(anime.getOriginalTitle())
                 .title(anime.getTitle())
@@ -22,24 +23,26 @@ public class AnimeDtoConverter {
                 .duration(anime.getDuration())
                 .episodesEnd(anime.getEpisodesEnd())
                 .usrId(anime.getUsrId())
+                .shikiId(anime.getShikiId())
                 .build();
     }
 
-    public Anime convert(@NotNull AnimeDto animeDto) {
+    public Anime convert(@NotNull AnimeDtoRq source) {
         return Anime.builder()
-                .id(animeDto.getId())
-                .originalTitle(animeDto.getOriginalTitle())
-                .title(animeDto.getTitle())
-                .episodes(animeDto.getEpisodes())
-                .status(animeDto.getStatus())
-                .score(animeDto.getScore())
-                .endDate(animeDto.getEndDate())
-                .releaseDate(animeDto.getReleaseDate())
-                .releaseYear(animeDto.getReleaseYear())
-                .shikiId(animeDto.getShikiId())
-                .duration(animeDto.getDuration())
-                .episodesEnd(animeDto.getEpisodesEnd())
-                .usrId(animeDto.getUsrId())
+                .id(source.getId())
+                .originalTitle(source.getOriginalTitle())
+                .title(source.getTitle())
+                .episodes(source.getEpisodes())
+                .status(source.getStatus())
+                .score(source.getScore())
+                .endDate(source.getEndDate())
+                .releaseDate(source.getReleaseDate())
+                .releaseYear(source.getReleaseDate().getYear())
+                .shikiId(source.getShikiId())
+                .duration(source.getDuration())
+                .episodesEnd(source.getEpisodesEnd())
+                .usrId(source.getUsrId())
                 .build();
     }
+
 }

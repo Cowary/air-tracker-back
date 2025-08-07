@@ -1,17 +1,23 @@
 package org.cowary.arttrackerback.integration.api.shiki;
 
-public class ShikimoriApi {
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-    public static AnimeApi animeApi() {
-        return new AnimeApi();
-    }
+@Service
+@RequiredArgsConstructor
+public class ShikimoriApi {
+    public AnimeApi animeApi;
+//    public MangaApi mangaApi;
+//    public RanobeApi ranobeApi;
 
     public static MangaApi mangaApi() {
-        return new MangaApi();
+//        return new MangaApi();
+        return null;
     }
 
     public static RanobeApi ranobeApi() {
-        return new RanobeApi();
+//        return new RanobeApi();
+        return null;
     }
 
 

@@ -1,4 +1,4 @@
-package org.cowary.arttrackerback.rest.dto;
+package org.cowary.arttrackerback.rest.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TvSeasonDto {
+public class TvSeasonDtoRs {
     Long id;
     String title;
     Integer number;
@@ -23,7 +23,7 @@ public class TvSeasonDto {
     LocalDate endDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate lastUpd;
-    TvDto tv;
+    TvDtoRs tv;
     Long usrId;
     String type = "Tv";
 }

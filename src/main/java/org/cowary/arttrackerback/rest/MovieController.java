@@ -12,7 +12,7 @@ import org.cowary.arttrackerback.entity.movie.Movie;
 import org.cowary.arttrackerback.integration.api.kin.KinApi;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.cowary.arttrackerback.rest.converter.MovieConverter;
-import org.cowary.arttrackerback.rest.dto.MovieDto;
+import org.cowary.arttrackerback.rest.dto.response.MovieDtoRs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,14 +24,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/title")
 @Setter
-public class MovieController implements TitleController<MovieDto>, FindController<MovieRs> {
+public class MovieController implements TitleController<MovieDtoRs, MovieDtoRs>, FindController<MovieRs> {
 
     @Autowired
     private MovieCrud movieCrud;
 
     @Override
     @GetMapping("/movie")
-    public ResponseEntity<List<MovieDto>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<MovieDtoRs>> getAllByUsrId(@RequestHeader long userId) {
         var movieList = movieCrud.getAllByUserId(userId);
         var movieDtoList = movieList.stream().map(MovieConverter::convert).toList();
         return ResponseEntity.ok(
@@ -41,7 +41,7 @@ public class MovieController implements TitleController<MovieDto>, FindControlle
 
     @Override
     @GetMapping("/movie/{titleId}")
-    public ResponseEntity<MovieDto> getTitle(@PathVariable long titleId) {
+    public ResponseEntity<MovieDtoRs> getTitle(@PathVariable long titleId) {
         var movie = movieCrud.findById(titleId);
         var movieDto = MovieConverter.convert(movie);
         return ResponseEntity.ok(
@@ -51,7 +51,7 @@ public class MovieController implements TitleController<MovieDto>, FindControlle
 
     @Override
     @PostMapping("/movie")
-    public ResponseEntity<MovieDto> postTitle(@RequestBody @Valid MovieDto title) {
+    public ResponseEntity<MovieDtoRs> postTitle(@RequestBody @Valid MovieDtoRs title) {
         var movie = MovieConverter.convert(title);
         movieCrud.save(movie);
         movie.setId(movie.getId());
@@ -62,7 +62,7 @@ public class MovieController implements TitleController<MovieDto>, FindControlle
 
     @Override
     @PutMapping("/movie")
-    public ResponseEntity<MovieDto> putTitle(@RequestBody @Valid MovieDto title) {
+    public ResponseEntity<MovieDtoRs> putTitle(@RequestBody @Valid MovieDtoRs title) {
         var movie = MovieConverter.convert(title);
         movieCrud.save(movie);
         return ResponseEntity.ok(title);

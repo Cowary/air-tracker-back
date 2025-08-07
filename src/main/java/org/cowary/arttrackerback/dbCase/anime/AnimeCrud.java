@@ -28,9 +28,9 @@ public class AnimeCrud implements MediaCrud<Anime> {
 
     public void save(Anime anime) {
         anime.setLastUpd(LocalDate.now());
-        anime.setUsrId(userService.getIdCurrentUser());
+        anime.setUsrId(3L);
         animeRepo.save(anime);
-        logger.info("Было сохранено аниме id: " + anime.getId() + " название: " + anime.getTitle() + " пользователя: " + userService.getIdCurrentUser());
+        logger.info("Было сохранено аниме id: " + anime.getId() + " название: " + anime.getTitle() + " пользователя: " + 3);
     }
 
     public Anime getById(long id) {

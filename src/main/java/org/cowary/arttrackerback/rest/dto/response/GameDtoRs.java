@@ -1,7 +1,8 @@
-package org.cowary.arttrackerback.rest.dto;
+package org.cowary.arttrackerback.rest.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -11,19 +12,20 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RanobeDto {
+public class GameDtoRs {
+
     Long id;
-    String originalTitle;
     String title;
-    Integer volumes;
-    Integer score;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate endDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate releaseDate;
     Integer releaseYear;
+    Integer score;
+    String status;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    Integer shikiId;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @UpdateTimestamp
     LocalDate lastUpd;
     Long usrId;
-    String type = "Ranobe";
+    String type = "Game";
 }

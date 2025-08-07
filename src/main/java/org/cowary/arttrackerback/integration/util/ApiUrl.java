@@ -1,8 +1,6 @@
 package org.cowary.arttrackerback.integration.util;
 
 
-import org.cowary.arttrackerback.util.ProperUtil;
-
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,17 +8,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ApiUrl {
 
-    private static ProperUtil properUtil;
+public class ApiUrl {
     private static StringBuilder urlBuilder;
     private final Map<String, String> query = new TreeMap<>();
 
-    public ApiUrl(String fileName) {
-        properUtil = new ProperUtil(fileName);
-        urlBuilder = new StringBuilder(
-                properUtil.getProp("BASE_URL")
-        );
+//    public ApiUrl(String fileName) {
+//        properUtil = new ProperUtil(fileName);
+//        urlBuilder = new StringBuilder(
+//                properUtil.getProp("BASE_URL")
+//        );
+//    }
+
+    public ApiUrl(String baseUrl) {
+        urlBuilder = new StringBuilder(baseUrl);
     }
 
     public ApiUrl addQuery(String key, String value) {
@@ -50,7 +51,7 @@ public class ApiUrl {
     }
 
     public ApiUrl appendPathFromFile(String keyFile) {
-        return appendPath(properUtil.getProp(keyFile));
+        return appendPath(keyFile);
     }
 
     public URL build() {

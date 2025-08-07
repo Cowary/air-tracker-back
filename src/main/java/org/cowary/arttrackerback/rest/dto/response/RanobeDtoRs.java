@@ -1,7 +1,5 @@
-package org.cowary.arttrackerback.rest.dto;
+package org.cowary.arttrackerback.rest.dto.response;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,25 +11,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class MovieDto {
+public class RanobeDtoRs {
     Long id;
     String originalTitle;
-    @NotNull
-    @NotBlank
     String title;
-    @NotNull
-    Integer releaseYear;
-    Integer duration;
-    @NotNull
-    @NotBlank
-    String status;
-    @NotNull
+    Integer volumes;
     Integer score;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate endDate;
+    LocalDate releaseDate;
+    Integer releaseYear;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    Integer shikiId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate lastUpd;
     Long usrId;
-    Integer integrationId;
-    String type = "Movie";
+    String type = "Ranobe";
 }

@@ -2,14 +2,13 @@ package org.cowary.arttrackerback.entity.api.mediaRs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.cowary.arttrackerback.entity.ranobe.Ranobe;
-import org.cowary.arttrackerback.rest.dto.RanobeDto;
+import org.cowary.arttrackerback.rest.dto.response.RanobeDtoRs;
 
 @Data
 @AllArgsConstructor
 public class RanobeRs implements MediaRs {
 
-    private RanobeDto ranobe;
+    private RanobeDtoRs ranobe;
     private String posterUrl;
 
 

@@ -2,13 +2,13 @@ package org.cowary.arttrackerback.rest.converter;
 
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.movie.Movie;
-import org.cowary.arttrackerback.rest.dto.MovieDto;
+import org.cowary.arttrackerback.rest.dto.response.MovieDtoRs;
 
 @UtilityClass
 public class MovieConverter {
 
-    public static MovieDto convert(Movie movie) {
-        return MovieDto.builder()
+    public static MovieDtoRs convert(Movie movie) {
+        return MovieDtoRs.builder()
                 .id(movie.getId())
                 .originalTitle(movie.getOriginalTitle())
                 .title(movie.getTitle())
@@ -21,17 +21,17 @@ public class MovieConverter {
                 .build();
     }
 
-    public static Movie convert(MovieDto movieDto) {
+    public static Movie convert(MovieDtoRs movieDtoRs) {
         return Movie.builder()
-                .id(movieDto.getId())
-                .originalTitle(movieDto.getOriginalTitle())
-                .title(movieDto.getTitle())
-                .releaseYear(movieDto.getReleaseYear())
-                .duration(movieDto.getDuration())
-                .status(movieDto.getStatus())
-                .score(movieDto.getScore())
-                .endDate(movieDto.getEndDate())
-                .usrId(movieDto.getUsrId())
+                .id(movieDtoRs.getId())
+                .originalTitle(movieDtoRs.getOriginalTitle())
+                .title(movieDtoRs.getTitle())
+                .releaseYear(movieDtoRs.getReleaseYear())
+                .duration(movieDtoRs.getDuration())
+                .status(movieDtoRs.getStatus())
+                .score(movieDtoRs.getScore())
+                .endDate(movieDtoRs.getEndDate())
+                .usrId(movieDtoRs.getUsrId())
                 .build();
     }
 

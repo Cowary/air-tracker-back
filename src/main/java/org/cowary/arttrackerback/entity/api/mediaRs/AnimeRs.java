@@ -2,13 +2,12 @@ package org.cowary.arttrackerback.entity.api.mediaRs;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.cowary.arttrackerback.entity.anime.Anime;
-import org.cowary.arttrackerback.rest.dto.AnimeDto;
+import org.cowary.arttrackerback.rest.dto.response.AnimeDtoRs;
 
 @Data
 @AllArgsConstructor
 public class AnimeRs implements MediaRs {
 
-    private AnimeDto media;
+    private AnimeDtoRs media;
     private String posterUrl;
 }

@@ -2,13 +2,13 @@ package org.cowary.arttrackerback.rest.converter;
 
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.book.Book;
-import org.cowary.arttrackerback.rest.dto.BookDto;
+import org.cowary.arttrackerback.rest.dto.response.BookDtoRs;
 
 @UtilityClass
 public class BookDtoConverter {
 
-    public static BookDto convert(Book book) {
-        return BookDto.builder()
+    public static BookDtoRs convert(Book book) {
+        return BookDtoRs.builder()
                 .id(book.getId())
                 .title(book.getTitle())
                 .endDate(book.getEndDate())
@@ -21,7 +21,7 @@ public class BookDtoConverter {
                 .build();
     }
 
-    public static Book convert(BookDto dto) {
+    public static Book convert(BookDtoRs dto) {
         return Book.builder()
                 .id(dto.getId())
                 .title(dto.getTitle())

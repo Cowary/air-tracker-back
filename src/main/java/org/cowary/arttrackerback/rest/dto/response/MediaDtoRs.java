@@ -1,4 +1,4 @@
-package org.cowary.arttrackerback.rest.dto;
+package org.cowary.arttrackerback.rest.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Temporal;
@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 
 @Data
-public class MediaDto {
+public class MediaDtoRs {
     private String status;
     @Temporal(TemporalType.DATE)
     private LocalDate endDate;

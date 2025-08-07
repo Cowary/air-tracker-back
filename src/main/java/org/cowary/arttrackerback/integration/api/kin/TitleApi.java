@@ -1,6 +1,7 @@
 package org.cowary.arttrackerback.integration.api.kin;
 
 
+import org.cowary.arttrackerback.configuration.AppConfig;
 import org.cowary.arttrackerback.integration.model.shiki.RoleModel;
 import org.cowary.arttrackerback.integration.util.ApiUrl;
 import org.cowary.arttrackerback.integration.util.RestTemp;
@@ -8,15 +9,16 @@ import org.cowary.arttrackerback.integration.util.RestTemp;
 import java.net.URL;
 
 abstract public class TitleApi {
+    protected final RestTemp restTemp;
+    protected final AppConfig appConfig;
 
-    public TitleApi() {
-        restTemp = new RestTemp();
+    public TitleApi(RestTemp restTemp, AppConfig appConfig) {
+        this.restTemp = new RestTemp();
+        this.appConfig = appConfig;
     }
 
-    private final RestTemp restTemp;
-
     public <T> T searchByName(String keyword, String urlTitle, Class<T> responseType) {
-        URL url = new ApiUrl("shiki.properties").appendPathFromFile(urlTitle)
+        URL url = new ApiUrl(appConfig.shikiUrl).appendPathFromFile(urlTitle)
                 .addQuery("search", keyword)
                 .addQuery("limit", 5)
                 .build();
@@ -25,7 +27,7 @@ abstract public class TitleApi {
     }
 
     public <T> T getById(int animeId, String urlTitle, Class<T> responseType) {
-        URL urlAnime = new ApiUrl("shiki.properties").appendPathFromFile(urlTitle)
+        URL urlAnime = new ApiUrl(appConfig.shikiUrl).appendPathFromFile(urlTitle)
                 .appendPath(animeId)
                 .build();
 
@@ -33,9 +35,9 @@ abstract public class TitleApi {
     }
 
     public RoleModel[] getRoleById(int id, String urlTitle) {
-        URL urlRole = new ApiUrl("shiki.properties").appendPathFromFile(urlTitle)
+        URL urlRole = new ApiUrl(appConfig.shikiUrl).appendPathFromFile(urlTitle)
                 .appendPath(id)
-                .appendPathFromFile("URL_ROLES")
+                .appendPathFromFile(appConfig.roleUrl)
                 .build();
         return restTemp.getBody(urlRole, RoleModel[].class);
     }

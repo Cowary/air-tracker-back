@@ -2,13 +2,13 @@ package org.cowary.arttrackerback.rest.converter;
 
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.game.Game;
-import org.cowary.arttrackerback.rest.dto.GameDto;
+import org.cowary.arttrackerback.rest.dto.response.GameDtoRs;
 
 @UtilityClass
 public class GameConverter {
 
-    public static GameDto convert(Game game) {
-        return GameDto.builder()
+    public static GameDtoRs convert(Game game) {
+        return GameDtoRs.builder()
                 .id(game.getId())
                 .title(game.getTitle())
                 .endDate(game.getEndDate())
@@ -20,16 +20,16 @@ public class GameConverter {
                 .build();
     }
 
-    public static Game convert(GameDto gameDto) {
+    public static Game convert(GameDtoRs gameDtoRs) {
         return Game.builder()
-                .id(gameDto.getId())
-                .title(gameDto.getTitle())
-                .endDate(gameDto.getEndDate())
-                .releaseDate(gameDto.getReleaseDate())
-                .releaseYear(gameDto.getReleaseYear())
-                .score(gameDto.getScore())
-                .status(gameDto.getStatus())
-                .usrId(gameDto.getUsrId())
+                .id(gameDtoRs.getId())
+                .title(gameDtoRs.getTitle())
+                .endDate(gameDtoRs.getEndDate())
+                .releaseDate(gameDtoRs.getReleaseDate())
+                .releaseYear(gameDtoRs.getReleaseYear())
+                .score(gameDtoRs.getScore())
+                .status(gameDtoRs.getStatus())
+                .usrId(gameDtoRs.getUsrId())
                 .build();
     }
 }

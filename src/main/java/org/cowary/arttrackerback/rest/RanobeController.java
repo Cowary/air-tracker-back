@@ -10,11 +10,10 @@ import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.api.mediaRs.RanobeRs;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
-import org.cowary.arttrackerback.entity.ranobe.RanobeVolume;
 import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
 import org.cowary.arttrackerback.integration.model.shiki.RanobeModel;
 import org.cowary.arttrackerback.rest.converter.RanobeDtoConverter;
-import org.cowary.arttrackerback.rest.dto.RanobeVolumeDto;
+import org.cowary.arttrackerback.rest.dto.response.RanobeVolumeDtoRs;
 import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,7 +28,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/title")
 @Setter
-public class RanobeController implements TitleController<RanobeVolumeDto>, FindController<RanobeRs> {
+public class RanobeController implements TitleController<RanobeVolumeDtoRs, RanobeVolumeDtoRs>, FindController<RanobeRs> {
 
     @Autowired
     private RanobeVolumeCrud ranobeVolumeCrud;
@@ -38,7 +37,7 @@ public class RanobeController implements TitleController<RanobeVolumeDto>, FindC
 
     @Override
     @GetMapping("/ranobe")
-    public ResponseEntity<List<RanobeVolumeDto>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<RanobeVolumeDtoRs>> getAllByUsrId(@RequestHeader long userId) {
         var ranobeVolumesList = ranobeVolumeCrud.getAllByUserId(userId);
         var ranobeVolumesDtoList = ranobeVolumesList.stream().map(RanobeDtoConverter::convert).toList();
         return ResponseEntity.ok(
@@ -48,7 +47,7 @@ public class RanobeController implements TitleController<RanobeVolumeDto>, FindC
 
     @Override
     @GetMapping("/ranobe/{titleId}")
-    public ResponseEntity<RanobeVolumeDto> getTitle(@PathVariable long titleId) {
+    public ResponseEntity<RanobeVolumeDtoRs> getTitle(@PathVariable long titleId) {
         var ranobe = ranobeVolumeCrud.getById(titleId);
         return ResponseEntity.ok(
                 RanobeDtoConverter.convert(ranobe)
@@ -57,7 +56,7 @@ public class RanobeController implements TitleController<RanobeVolumeDto>, FindC
 
     @Override
     @PostMapping("/ranobe")
-    public ResponseEntity<RanobeVolumeDto> postTitle(@Valid @RequestBody RanobeVolumeDto title) {
+    public ResponseEntity<RanobeVolumeDtoRs> postTitle(@Valid @RequestBody RanobeVolumeDtoRs title) {
         var ranobe = RanobeDtoConverter.convert(title);
         ranobeVolumeCrud.save(ranobe);
         title.setId(ranobe.getId());
@@ -67,7 +66,7 @@ public class RanobeController implements TitleController<RanobeVolumeDto>, FindC
 
     @Override
     @PutMapping("/ranobe")
-    public ResponseEntity<RanobeVolumeDto> putTitle(@Valid @RequestBody RanobeVolumeDto title) {
+    public ResponseEntity<RanobeVolumeDtoRs> putTitle(@Valid @RequestBody RanobeVolumeDtoRs title) {
         ranobeVolumeCrud.save(RanobeDtoConverter.convert(title));
         return ResponseEntity.ok(title);
     }

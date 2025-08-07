@@ -1,4 +1,4 @@
-package org.cowary.arttrackerback.rest.dto;
+package org.cowary.arttrackerback.rest.dto.response;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,16 +11,22 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TvDto {
+public class MangaDtoRs {
     Long id;
     String originalTitle;
     String title;
-    Integer releaseYear;
+    Integer volumes;
+    Integer chapters;
+    String status;
     Integer score;
-    Integer seasons;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate lastUpd;
+    LocalDate releaseDate;
+    Integer releaseYear;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate endDate;
+    Integer shikiId;
+    Integer volumesEnd;
+    Integer chaptersEnd;
     Long usrId;
-    Integer integrationId;
-    String type = "Tv";
+    String type = "Manga";
 }

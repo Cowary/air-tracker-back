@@ -3,14 +3,14 @@ package org.cowary.arttrackerback.rest.converter;
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
 import org.cowary.arttrackerback.entity.ranobe.RanobeVolume;
-import org.cowary.arttrackerback.rest.dto.RanobeDto;
-import org.cowary.arttrackerback.rest.dto.RanobeVolumeDto;
+import org.cowary.arttrackerback.rest.dto.response.RanobeDtoRs;
+import org.cowary.arttrackerback.rest.dto.response.RanobeVolumeDtoRs;
 
 @UtilityClass
 public class RanobeDtoConverter {
 
-    public static RanobeDto convert(Ranobe ranobe) {
-        return RanobeDto.builder()
+    public static RanobeDtoRs convert(Ranobe ranobe) {
+        return RanobeDtoRs.builder()
                 .id(ranobe.getId())
                 .originalTitle(ranobe.getOriginalTitle())
                 .title(ranobe.getTitle())
@@ -24,23 +24,23 @@ public class RanobeDtoConverter {
                 .build();
     }
 
-    public static Ranobe convert(RanobeDto ranobeDto) {
+    public static Ranobe convert(RanobeDtoRs ranobeDtoRs) {
         return Ranobe.builder()
-                .id(ranobeDto.getId())
-                .originalTitle(ranobeDto.getOriginalTitle())
-                .title(ranobeDto.getTitle())
-                .volumes(ranobeDto.getVolumes())
-                .score(ranobeDto.getScore())
-                .releaseDate(ranobeDto.getReleaseDate())
-                .releaseYear(ranobeDto.getReleaseYear())
-                .shikiId(ranobeDto.getShikiId())
-                .lastUpd(ranobeDto.getLastUpd())
-                .usrId(ranobeDto.getUsrId())
+                .id(ranobeDtoRs.getId())
+                .originalTitle(ranobeDtoRs.getOriginalTitle())
+                .title(ranobeDtoRs.getTitle())
+                .volumes(ranobeDtoRs.getVolumes())
+                .score(ranobeDtoRs.getScore())
+                .releaseDate(ranobeDtoRs.getReleaseDate())
+                .releaseYear(ranobeDtoRs.getReleaseYear())
+                .shikiId(ranobeDtoRs.getShikiId())
+                .lastUpd(ranobeDtoRs.getLastUpd())
+                .usrId(ranobeDtoRs.getUsrId())
                 .build();
     }
 
-    public static RanobeVolumeDto convert(RanobeVolume ranobeVolume) {
-        return RanobeVolumeDto.builder()
+    public static RanobeVolumeDtoRs convert(RanobeVolume ranobeVolume) {
+        return RanobeVolumeDtoRs.builder()
                 .id(ranobeVolume.getId())
                 .title(ranobeVolume.getTitle())
                 .number(ranobeVolume.getNumber())
@@ -52,16 +52,16 @@ public class RanobeDtoConverter {
                 .build();
     }
 
-    public static RanobeVolume convert(RanobeVolumeDto ranobeVolumeDto) {
+    public static RanobeVolume convert(RanobeVolumeDtoRs ranobeVolumeDtoRs) {
         return RanobeVolume.builder()
-                .id(ranobeVolumeDto.getId())
-                .title(ranobeVolumeDto.getTitle())
-                .number(ranobeVolumeDto.getNumber())
-                .status(ranobeVolumeDto.getStatus())
-                .score(ranobeVolumeDto.getScore())
-                .endDate(ranobeVolumeDto.getEndDate())
-                .ranobe(convert(ranobeVolumeDto.getRanobe()))
-                .usrId(ranobeVolumeDto.getUsrId())
+                .id(ranobeVolumeDtoRs.getId())
+                .title(ranobeVolumeDtoRs.getTitle())
+                .number(ranobeVolumeDtoRs.getNumber())
+                .status(ranobeVolumeDtoRs.getStatus())
+                .score(ranobeVolumeDtoRs.getScore())
+                .endDate(ranobeVolumeDtoRs.getEndDate())
+                .ranobe(convert(ranobeVolumeDtoRs.getRanobe()))
+                .usrId(ranobeVolumeDtoRs.getUsrId())
                 .build();
     }
 }

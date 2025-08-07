@@ -10,11 +10,10 @@ import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.api.mediaRs.TvRs;
 import org.cowary.arttrackerback.entity.tv.Tv;
-import org.cowary.arttrackerback.entity.tv.TvSeason;
 import org.cowary.arttrackerback.integration.api.kin.KinApi;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.cowary.arttrackerback.rest.converter.TvConverter;
-import org.cowary.arttrackerback.rest.dto.TvSeasonDto;
+import org.cowary.arttrackerback.rest.dto.response.TvSeasonDtoRs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +26,7 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/title")
 @Setter
-public class TvController implements TitleController<TvSeasonDto>, FindController<TvRs> {
+public class TvController implements TitleController<TvSeasonDtoRs, TvSeasonDtoRs>, FindController<TvRs> {
 
     @Autowired
     private TvSeasonsCrud tvSeasonsCrud;
@@ -36,7 +35,7 @@ public class TvController implements TitleController<TvSeasonDto>, FindControlle
 
     @Override
     @GetMapping("/tv")
-    public ResponseEntity<List<TvSeasonDto>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<TvSeasonDtoRs>> getAllByUsrId(@RequestHeader long userId) {
         var tvSeasonsList = tvSeasonsCrud.getAllByUserId(userId);
         var dtoList = tvSeasonsList.stream().map(TvConverter::convert).toList();
         return ResponseEntity.ok(
@@ -46,7 +45,7 @@ public class TvController implements TitleController<TvSeasonDto>, FindControlle
 
     @Override
     @GetMapping("/tv/{titleId}")
-    public ResponseEntity<TvSeasonDto> getTitle(@PathVariable long titleId) {
+    public ResponseEntity<TvSeasonDtoRs> getTitle(@PathVariable long titleId) {
         var tvSeason = tvSeasonsCrud.getById(titleId);
         return ResponseEntity.ok(
                 TvConverter.convert(tvSeason)
@@ -55,7 +54,7 @@ public class TvController implements TitleController<TvSeasonDto>, FindControlle
 
     @Override
     @PostMapping("/tv")
-    public ResponseEntity<TvSeasonDto> postTitle(@Valid @RequestBody TvSeasonDto title) {
+    public ResponseEntity<TvSeasonDtoRs> postTitle(@Valid @RequestBody TvSeasonDtoRs title) {
         var tvSeason = TvConverter.convert(title);
         tvSeasonsCrud.save(tvSeason);
         title.setId(tvSeason.getId());
@@ -65,7 +64,7 @@ public class TvController implements TitleController<TvSeasonDto>, FindControlle
 
     @Override
     @PutMapping("/tv")
-    public ResponseEntity<TvSeasonDto> putTitle(@Valid @RequestBody TvSeasonDto title) {
+    public ResponseEntity<TvSeasonDtoRs> putTitle(@Valid @RequestBody TvSeasonDtoRs title) {
         var tvSeason = TvConverter.convert(title);
         tvSeasonsCrud.save(tvSeason);
         return ResponseEntity.ok(title);

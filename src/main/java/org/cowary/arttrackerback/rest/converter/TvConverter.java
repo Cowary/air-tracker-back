@@ -3,27 +3,27 @@ package org.cowary.arttrackerback.rest.converter;
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.tv.Tv;
 import org.cowary.arttrackerback.entity.tv.TvSeason;
-import org.cowary.arttrackerback.rest.dto.TvDto;
-import org.cowary.arttrackerback.rest.dto.TvSeasonDto;
+import org.cowary.arttrackerback.rest.dto.response.TvDtoRs;
+import org.cowary.arttrackerback.rest.dto.response.TvSeasonDtoRs;
 
 @UtilityClass
 public class TvConverter {
 
-    public static Tv convert(TvDto tvDto) {
+    public static Tv convert(TvDtoRs tvDtoRs) {
         return Tv.builder()
-                .id(tvDto.getId())
-                .originalTitle(tvDto.getOriginalTitle())
-                .title(tvDto.getTitle())
-                .releaseYear(tvDto.getReleaseYear())
-                .score(tvDto.getScore())
-                .seasons(tvDto.getSeasons())
-                .usrId(tvDto.getUsrId())
-                .integrationId(tvDto.getIntegrationId())
+                .id(tvDtoRs.getId())
+                .originalTitle(tvDtoRs.getOriginalTitle())
+                .title(tvDtoRs.getTitle())
+                .releaseYear(tvDtoRs.getReleaseYear())
+                .score(tvDtoRs.getScore())
+                .seasons(tvDtoRs.getSeasons())
+                .usrId(tvDtoRs.getUsrId())
+                .integrationId(tvDtoRs.getIntegrationId())
                 .build();
     }
 
-    public static TvDto convert(Tv tv) {
-        return TvDto.builder()
+    public static TvDtoRs convert(Tv tv) {
+        return TvDtoRs.builder()
                 .id(tv.getId())
                 .originalTitle(tv.getOriginalTitle())
                 .title(tv.getTitle())
@@ -35,23 +35,23 @@ public class TvConverter {
                 .build();
     }
 
-    public static TvSeason convert(TvSeasonDto tvSeasonDto) {
+    public static TvSeason convert(TvSeasonDtoRs tvSeasonDtoRs) {
         return TvSeason.builder()
-                .id(tvSeasonDto.getId())
-                .title(tvSeasonDto.getTitle())
-                .number(tvSeasonDto.getNumber())
-                .episodes(tvSeasonDto.getEpisodes())
-                .episodesEnd(tvSeasonDto.getEpisodesEnd())
-                .status(tvSeasonDto.getStatus())
-                .score(tvSeasonDto.getScore())
-                .endDate(tvSeasonDto.getEndDate())
-                .tv(convert(tvSeasonDto.getTv()))
-                .usrId(tvSeasonDto.getUsrId())
+                .id(tvSeasonDtoRs.getId())
+                .title(tvSeasonDtoRs.getTitle())
+                .number(tvSeasonDtoRs.getNumber())
+                .episodes(tvSeasonDtoRs.getEpisodes())
+                .episodesEnd(tvSeasonDtoRs.getEpisodesEnd())
+                .status(tvSeasonDtoRs.getStatus())
+                .score(tvSeasonDtoRs.getScore())
+                .endDate(tvSeasonDtoRs.getEndDate())
+                .tv(convert(tvSeasonDtoRs.getTv()))
+                .usrId(tvSeasonDtoRs.getUsrId())
                 .build();
     }
 
-    public static TvSeasonDto convert(TvSeason tvSeason) {
-        return TvSeasonDto.builder()
+    public static TvSeasonDtoRs convert(TvSeason tvSeason) {
+        return TvSeasonDtoRs.builder()
                 .id(tvSeason.getId())
                 .title(tvSeason.getTitle())
                 .number(tvSeason.getNumber())

@@ -1,19 +1,23 @@
 package org.cowary.arttrackerback.rest;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.List;
 
-public interface TitleController<T> {
+public interface TitleController<RS, RQ> {
 
-    ResponseEntity<List<T>> getAllByUsrId(long userId);
+    ResponseEntity<List<RS>> getAllByUsrId(@RequestHeader long userId);
 
-    ResponseEntity<T> getTitle(long titleId);
+    ResponseEntity<RS> getTitle(@PathVariable long titleId);
 
-    ResponseEntity<T> postTitle(T title);
+    ResponseEntity<RS> postTitle(@RequestBody @Valid RQ title);
 
-    ResponseEntity<T> putTitle(T title);
+    ResponseEntity<RS> putTitle(@RequestBody @Valid RQ title);
 
-    ResponseEntity<String> deleteTitle(long id);
+    ResponseEntity<String> deleteTitle(@RequestHeader long id);
 
 }
