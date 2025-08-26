@@ -10,6 +10,6 @@ import org.cowary.arttrackerback.rest.dto.response.MovieDtoRs;
 @NoArgsConstructor
 public class MovieRs implements MediaRs {
 
-    private MovieDtoRs movie;
+    private MovieDtoRs media;
     private String posterUrl;
 }

@@ -26,11 +26,12 @@ public class AnimeCrud implements MediaCrud<Anime> {
         return animeRepo.findAllByUsrId(userId);
     }
 
-    public void save(Anime anime) {
+    public Anime save(Anime anime) {
         anime.setLastUpd(LocalDate.now());
         anime.setUsrId(3L);
         animeRepo.save(anime);
         logger.info("Было сохранено аниме id: " + anime.getId() + " название: " + anime.getTitle() + " пользователя: " + 3);
+        return anime;
     }
 
     public Anime getById(long id) {

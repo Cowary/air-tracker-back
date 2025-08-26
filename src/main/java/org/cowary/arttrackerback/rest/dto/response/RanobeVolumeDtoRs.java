@@ -14,6 +14,7 @@ import java.time.LocalDate;
 public class RanobeVolumeDtoRs {
     Long id;
     String title;
+    String originalTitle;
     Integer number;
     String status;
     Integer score;
@@ -22,5 +23,8 @@ public class RanobeVolumeDtoRs {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     RanobeDtoRs ranobe;
     Long usrId;
+    Integer integrationId;
+    LocalDate releaseDate;
+
     String type = "Ranobe";
 }

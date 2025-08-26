@@ -60,8 +60,8 @@ public class AnimeController implements TitleController<AnimeDtoRs, AnimeDtoRq>,
     @PostMapping("/anime")
     public ResponseEntity<AnimeDtoRs> postTitle(@RequestBody @Valid AnimeDtoRq title) {
         var anime = AnimeDtoConverter.convert(title);
-        animeCrud.save(anime);
-        title.setId(anime.getId());
+        anime = animeCrud.save(anime);
+        //title.setId(anime.getId());
         var animeRs = AnimeDtoConverter.convert(anime);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

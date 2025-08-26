@@ -2,6 +2,7 @@ package org.cowary.arttrackerback.rest.converter;
 
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.book.Book;
+import org.cowary.arttrackerback.rest.dto.request.BookDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.BookDtoRs;
 
 @UtilityClass
@@ -21,17 +22,17 @@ public class BookDtoConverter {
                 .build();
     }
 
-    public static Book convert(BookDtoRs dto) {
+    public static Book convert(BookDtoRq source) {
         return Book.builder()
-                .id(dto.getId())
-                .title(dto.getTitle())
-                .endDate(dto.getEndDate())
-                .releaseDate(dto.getReleaseDate())
-                .releaseYear(dto.getReleaseYear())
-                .score(dto.getScore())
-                .status(dto.getStatus())
-                .author(dto.getAuthor())
-                .usrId(dto.getUsrId())
+                .id(source.getId())
+                .title(source.getTitle())
+                .endDate(source.getEndDate())
+                .releaseDate(source.getReleaseDate())
+                .releaseYear(source.getReleaseYear())
+                .score(source.getScore())
+                .status(source.getStatus())
+                .author(source.getAuthor())
+                .usrId(source.getUsrId())
                 .build();
     }
 }

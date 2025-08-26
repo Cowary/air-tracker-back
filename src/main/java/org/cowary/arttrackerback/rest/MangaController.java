@@ -9,9 +9,10 @@ import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.api.mediaRs.MangaRs;
 import org.cowary.arttrackerback.entity.manga.Manga;
-import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
+import org.cowary.arttrackerback.integration.api.shiki.MangaApi;
 import org.cowary.arttrackerback.integration.model.shiki.MangaModel;
 import org.cowary.arttrackerback.rest.converter.MangaDtoConverter;
+import org.cowary.arttrackerback.rest.dto.request.MangaDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.MangaDtoRs;
 import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +25,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static org.cowary.arttrackerback.rest.AnimeController.removeAfterJpg;
+
 @RestController
 @RequestMapping("/title")
 @Setter
-public class MangaController implements TitleController<MangaDtoRs, MangaDtoRs>, FindController<MangaRs> {
+public class MangaController implements TitleController<MangaDtoRs, MangaDtoRq>, FindController<MangaRs> {
 
     @Autowired
     private MangaCrud mangaCrud;
+    @Autowired
+    private MangaApi mangaApi;
 
     @Override
     @GetMapping("/manga")
@@ -54,26 +59,28 @@ public class MangaController implements TitleController<MangaDtoRs, MangaDtoRs>,
 
     @Override
     @PostMapping("/manga")
-    public ResponseEntity<MangaDtoRs> postTitle(@RequestBody @Valid MangaDtoRs title) {
+    public ResponseEntity<MangaDtoRs> postTitle(@RequestBody @Valid MangaDtoRq title) {
         var manga = MangaDtoConverter.convert(title);
         mangaCrud.save(manga);
         title.setId(manga.getId());
+        var rs = MangaDtoConverter.convert(manga);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(title);
+                .body(rs);
     }
 
     @Override
     @PutMapping("/manga")
-    public ResponseEntity<MangaDtoRs> putTitle(@RequestBody @Valid MangaDtoRs title) {
+    public ResponseEntity<MangaDtoRs> putTitle(@RequestBody @Valid MangaDtoRq title) {
         var manga = MangaDtoConverter.convert(title);
-        mangaCrud.save(manga);
-        return ResponseEntity.ok(title);
+        manga = mangaCrud.save(manga);
+        var rs = MangaDtoConverter.convert(manga);
+        return ResponseEntity.ok(rs);
     }
 
     @Override
     @DeleteMapping("/manga")
-    public ResponseEntity<String> deleteTitle(@RequestHeader @NotNull long id) {
+    public ResponseEntity<String> deleteTitle(@RequestHeader long id) {
         mangaCrud.deleteById(id);
         return ResponseEntity.ok(String.format("Manga №%s deleted", id));
     }
@@ -82,7 +89,7 @@ public class MangaController implements TitleController<MangaDtoRs, MangaDtoRs>,
     @GetMapping("/manga/find")
     public ResponseEntity<FindMediaRs> find(@RequestParam @NotBlank String keyword) {
         Objects.requireNonNull(keyword);
-        var mediaModelList = ShikimoriApi.mangaApi().searchByName(keyword);
+        var mediaModelList = mangaApi.searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (MangaModel mangaModel : mediaModelList) {
             var releaseDate = mangaModel.getAired_on() == null ? null : LocalDate.parse(mangaModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()).getYear();
@@ -96,14 +103,14 @@ public class MangaController implements TitleController<MangaDtoRs, MangaDtoRs>,
     @Override
     @GetMapping("/manga/getByServiceId")
     public ResponseEntity<MangaRs> getByIntegrationID(@RequestParam @NotNull int id) {
-        var mangaModel = ShikimoriApi.mangaApi().getById(id);
+        var mangaModel = mangaApi.getById(id);
         var manga = new Manga(
                 mangaModel.getName(), mangaModel.getRussian(), mangaModel.getVolumes(), mangaModel.getChapters(), DateFormat.HTMLshort.parse(mangaModel.getAired_on()), mangaModel.getId()
         );
         //TODO: переделать
         var mangaDto = MangaDtoConverter.convert(manga);
         return ResponseEntity.ok(
-                new MangaRs(mangaDto, mangaModel.getImage().getOriginal())
+                new MangaRs(mangaDto, "https://dere.shikimori.me" + removeAfterJpg(mangaModel.getImage().getOriginal()))
         );
     }
 }

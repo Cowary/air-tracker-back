@@ -1,7 +1,8 @@
-package org.cowary.arttrackerback.rest.dto.response;
+package org.cowary.arttrackerback.rest.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.cowary.arttrackerback.rest.dto.response.TvDtoRs;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -11,21 +12,22 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RanobeDtoRs {
+public class TvSeasonDtoRq {
     Long id;
-    String originalTitle;
     String title;
-    Integer volumes;
-    Integer score;
+    String originalTitle;
+    Integer number;
+    Integer episodes;
+    Integer episodesEnd;
     String status;
+    Integer score;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate releaseDate;
-    Integer releaseYear;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    Integer shikiId;
+    LocalDate endDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate lastUpd;
+    Integer releaseYear;
+    TvDtoRs tv;
     Long usrId;
-    LocalDate endDate;
-    String type = "Ranobe";
+    Integer integrationId;
+    String type = "Tv";
 }

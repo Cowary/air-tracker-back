@@ -7,7 +7,6 @@ import org.cowary.arttrackerback.rest.dto.response.AnimeDtoRs;
 @Data
 @AllArgsConstructor
 public class AnimeRs implements MediaRs {
-
     private AnimeDtoRs media;
     private String posterUrl;
 }

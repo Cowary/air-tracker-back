@@ -28,7 +28,8 @@ public class MovieCrud implements MediaCrud<Movie> {
 
     public void save(Movie movie) {
         movie.setLastUpd(LocalDate.now());
-        movie.setUsrId(userService.getIdCurrentUser());
+//        movie.setUsrId(userService.getIdCurrentUser());
+        movie.setUsrId(3L);
         movieRepo.save(movie);
     }
 

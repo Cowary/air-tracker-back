@@ -10,6 +10,6 @@ public interface TvSeasonsRepo extends CrudRepository<TvSeason, Long> {
     List<TvSeason> findAll();
     List<TvSeason> findAllByUsrId(Long usrId);
     List<TvSeason> findAllByStatus(String status);
-    List<TvSeason> findAllByTvId(Long id);
+//    List<TvSeason> findAllByTvId(Long id);
 
 }

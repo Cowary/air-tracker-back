@@ -1,4 +1,4 @@
-package org.cowary.arttrackerback.rest.dto.response;
+package org.cowary.arttrackerback.rest.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -11,21 +11,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class RanobeDtoRs {
+public class BookDtoRq {
     Long id;
-    String originalTitle;
     String title;
-    Integer volumes;
-    Integer score;
-    String status;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate endDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate releaseDate;
     Integer releaseYear;
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    Integer shikiId;
+    Integer score;
+    String status;
+    String author;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate lastUpd;
     Long usrId;
-    LocalDate endDate;
-    String type = "Ranobe";
+    String type = "Book";
 }

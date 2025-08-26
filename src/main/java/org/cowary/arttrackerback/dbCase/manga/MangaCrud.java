@@ -32,10 +32,10 @@ public class MangaCrud implements MediaCrud<Manga> {
         return mangaRepo.findById(id).orElseThrow();
     }
 
-    public void save(Manga manga) {
+    public Manga save(Manga manga) {
         manga.setLastUpd(LocalDate.now());
         manga.setUsrId(userService.getIdCurrentUser());
-        mangaRepo.save(manga);
+        return mangaRepo.save(manga);
     }
 
     @Override

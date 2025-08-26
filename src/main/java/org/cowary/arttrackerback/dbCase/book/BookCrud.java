@@ -27,11 +27,11 @@ public class BookCrud implements MediaCrud<Book> {
         return bookRepo.findById(id).orElseThrow();
     }
 
-    public void save(Book book) {
+    public Book save(Book book) {
         book.setReleaseYear(book.getReleaseDate().getYear());
         book.setLastUpd(LocalDate.now());
         book.setUsrId(userService.getIdCurrentUser());
-        bookRepo.save(book);
+        return bookRepo.save(book);
     }
 
     public void delete(Book book) {

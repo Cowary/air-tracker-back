@@ -14,6 +14,7 @@ import java.time.LocalDate;
 public class TvSeasonDtoRs {
     Long id;
     String title;
+    String originalTitle;
     Integer number;
     Integer episodes;
     Integer episodesEnd;
@@ -23,6 +24,8 @@ public class TvSeasonDtoRs {
     LocalDate endDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate lastUpd;
+    Integer releaseYear;
+    Integer integration;
     TvDtoRs tv;
     Long usrId;
     String type = "Tv";

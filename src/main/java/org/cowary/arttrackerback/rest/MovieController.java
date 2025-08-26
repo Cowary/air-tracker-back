@@ -12,6 +12,7 @@ import org.cowary.arttrackerback.entity.movie.Movie;
 import org.cowary.arttrackerback.integration.api.kin.KinApi;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.cowary.arttrackerback.rest.converter.MovieConverter;
+import org.cowary.arttrackerback.rest.dto.request.MovieDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.MovieDtoRs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/title")
 @Setter
-public class MovieController implements TitleController<MovieDtoRs, MovieDtoRs>, FindController<MovieRs> {
+public class MovieController implements TitleController<MovieDtoRs, MovieDtoRq>, FindController<MovieRs> {
 
     @Autowired
     private MovieCrud movieCrud;
@@ -51,21 +52,22 @@ public class MovieController implements TitleController<MovieDtoRs, MovieDtoRs>,
 
     @Override
     @PostMapping("/movie")
-    public ResponseEntity<MovieDtoRs> postTitle(@RequestBody @Valid MovieDtoRs title) {
+    public ResponseEntity<MovieDtoRs> postTitle(@RequestBody @Valid MovieDtoRq title) {
         var movie = MovieConverter.convert(title);
         movieCrud.save(movie);
-        movie.setId(movie.getId());
+        var rs = MovieConverter.convert(movie);
         return ResponseEntity.
                 status(HttpStatus.CREATED)
-                .body(title);
+                .body(rs);
     }
 
     @Override
     @PutMapping("/movie")
-    public ResponseEntity<MovieDtoRs> putTitle(@RequestBody @Valid MovieDtoRs title) {
+    public ResponseEntity<MovieDtoRs> putTitle(@RequestBody @Valid MovieDtoRq title) {
         var movie = MovieConverter.convert(title);
         movieCrud.save(movie);
-        return ResponseEntity.ok(title);
+        var rs = MovieConverter.convert(movie);
+        return ResponseEntity.ok(rs);
     }
 
     @Override

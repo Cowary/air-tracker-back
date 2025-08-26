@@ -4,15 +4,17 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeCrud;
 import org.cowary.arttrackerback.dbCase.ranobe.RanobeVolumeCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.api.mediaRs.RanobeRs;
-import org.cowary.arttrackerback.entity.ranobe.Ranobe;
-import org.cowary.arttrackerback.integration.api.shiki.ShikimoriApi;
+import org.cowary.arttrackerback.entity.ranobe.RanobeVolume;
+import org.cowary.arttrackerback.integration.api.shiki.RanobeApi;
 import org.cowary.arttrackerback.integration.model.shiki.RanobeModel;
 import org.cowary.arttrackerback.rest.converter.RanobeDtoConverter;
+import org.cowary.arttrackerback.rest.dto.request.RanobeVolumeDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.RanobeVolumeDtoRs;
 import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,17 +25,21 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
+import static org.cowary.arttrackerback.rest.AnimeController.removeAfterJpg;
+
+@Slf4j
 @RestController
 @RequestMapping("/title")
 @Setter
-public class RanobeController implements TitleController<RanobeVolumeDtoRs, RanobeVolumeDtoRs>, FindController<RanobeRs> {
+public class RanobeController implements TitleController<RanobeVolumeDtoRs, RanobeVolumeDtoRq>, FindController<RanobeRs> {
 
     @Autowired
     private RanobeVolumeCrud ranobeVolumeCrud;
     @Autowired
     private RanobeCrud ranobeCrud;
+    @Autowired
+    private RanobeApi ranobeApi;
 
     @Override
     @GetMapping("/ranobe")
@@ -56,19 +62,22 @@ public class RanobeController implements TitleController<RanobeVolumeDtoRs, Rano
 
     @Override
     @PostMapping("/ranobe")
-    public ResponseEntity<RanobeVolumeDtoRs> postTitle(@Valid @RequestBody RanobeVolumeDtoRs title) {
+    public ResponseEntity<RanobeVolumeDtoRs> postTitle(@Valid @RequestBody RanobeVolumeDtoRq title) {
+        LOGGER.info("Receive request on add ranobe: {}", title);
         var ranobe = RanobeDtoConverter.convert(title);
         ranobeVolumeCrud.save(ranobe);
         title.setId(ranobe.getId());
+        var rs = RanobeDtoConverter.convert(ranobe);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(title);
+                .body(rs);
     }
 
     @Override
     @PutMapping("/ranobe")
-    public ResponseEntity<RanobeVolumeDtoRs> putTitle(@Valid @RequestBody RanobeVolumeDtoRs title) {
-        ranobeVolumeCrud.save(RanobeDtoConverter.convert(title));
-        return ResponseEntity.ok(title);
+    public ResponseEntity<RanobeVolumeDtoRs> putTitle(@Valid @RequestBody RanobeVolumeDtoRq title) {
+        var ranobeVolume = ranobeVolumeCrud.save(RanobeDtoConverter.convert(title));
+        var rs = RanobeDtoConverter.convert(ranobeVolume);
+        return ResponseEntity.ok(rs);
     }
 
     @Override
@@ -81,7 +90,7 @@ public class RanobeController implements TitleController<RanobeVolumeDtoRs, Rano
     @Override
     @GetMapping("/ranobe/find")
     public ResponseEntity<FindMediaRs> find(@RequestParam @NotBlank String keyword) {
-        var mediaModelList = ShikimoriApi.ranobeApi().searchByName(keyword);
+        var mediaModelList = ranobeApi.searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (RanobeModel ranobeModel : mediaModelList) {
             var fins = new Finds(ranobeModel.getName(), ranobeModel.getRussian(), ranobeModel.getScore(), ranobeModel.getChapters(),
@@ -95,14 +104,21 @@ public class RanobeController implements TitleController<RanobeVolumeDtoRs, Rano
     @GetMapping("/ranobe/getByServiceId")
     public ResponseEntity<RanobeRs> getByIntegrationID(@RequestParam @NotNull int id) {
         var actualRanobe = ranobeCrud.findByShikiIdAndUserId(id);
-        var ranobeModel = ShikimoriApi.ranobeApi().getById(id);
-        var ranobe = new Ranobe(
-                ranobeModel.getName(), ranobeModel.getRussian(), ranobeModel.getVolumes(),
-                LocalDate.parse(ranobeModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()), ranobeModel.getId()
-        );
-        var rs = Objects.requireNonNullElse(actualRanobe, ranobe);
+        var ranobeModel = ranobeApi.getById(id);
+        var ranobe = RanobeVolume.builder()
+                .title(ranobeModel.getRussian())
+                .originalTitle(ranobeModel.getName())
+                .releaseDate(LocalDate.parse(ranobeModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()))
+                .integrationId(ranobeModel.getId())
+                .build();
+
+//        var ranobe = new Ranobe(
+//                ranobeModel.getName(), ranobeModel.getRussian(), ranobeModel.getVolumes(),
+//                LocalDate.parse(ranobeModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()), ranobeModel.getId()
+//        );
+//        var rs = Objects.requireNonNullElse(actualRanobe, ranobe);
         return ResponseEntity.ok(
-                new RanobeRs(RanobeDtoConverter.convert(rs), ranobeModel.getImage().getOriginal())
+                new RanobeRs(RanobeDtoConverter.convert(ranobe), "https://dere.shikimori.me" + removeAfterJpg(ranobeModel.getImage().getOriginal()))
         );
 
     }

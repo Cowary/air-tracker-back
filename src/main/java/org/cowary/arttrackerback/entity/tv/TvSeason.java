@@ -3,8 +3,6 @@ package org.cowary.arttrackerback.entity.tv;
 import jakarta.persistence.*;
 import lombok.*;
 import org.cowary.arttrackerback.entity.Media;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -17,11 +15,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TvSeason extends Media {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private String originalTitle;
     private Integer number;
     private Integer episodes;
     private Integer episodesEnd;
@@ -33,11 +31,13 @@ public class TvSeason extends Media {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private LocalDate lastUpd;
-    @ManyToOne()
-    @Cascade({CascadeType.MERGE})
-    @JoinColumn(name = "tv_id")
-    private Tv tv;
+    private Integer releaseYear;
+//    @ManyToOne()
+//    @Cascade({CascadeType.MERGE})
+//    @JoinColumn(name = "tv_id")
+//    private Tv tv;
     private Long usrId;
+    private Integer integrationId;
     @Transient
     private String type = "Tv";
 }

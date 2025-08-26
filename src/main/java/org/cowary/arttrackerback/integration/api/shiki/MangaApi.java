@@ -21,12 +21,12 @@ public class MangaApi extends TitleApi {
     }
 
     public List<MangaModel> searchByName(String keyword) {
-        return List.of(super.searchByName(keyword, "URL_MANGA", MangaModel[].class));
+        return List.of(super.searchByName(keyword, appConfig.getMangaUrl(), MangaModel[].class));
     }
 
     public MangaModel getById(int id) {
-        MangaModel model = super.getById(id, "URL_MANGA", MangaModel.class);
-        model.setRoleModels(super.getRoleById(id, "URL_MANGA"));
+        MangaModel model = super.getById(id, appConfig.getMangaUrl(), MangaModel.class);
+        model.setRoleModels(super.getRoleById(id, appConfig.getMangaUrl()));
 
         return model;
     }

@@ -2,6 +2,7 @@ package org.cowary.arttrackerback.rest.converter;
 
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.manga.Manga;
+import org.cowary.arttrackerback.rest.dto.request.MangaDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.MangaDtoRs;
 
 @UtilityClass
@@ -25,21 +26,21 @@ public class MangaDtoConverter {
                 .build();
     }
 
-    public static Manga convert(MangaDtoRs mangaDtoRs) {
+    public static Manga convert(MangaDtoRq source) {
         return Manga.builder()
-                .id(mangaDtoRs.getId())
-                .originalTitle(mangaDtoRs.getOriginalTitle())
-                .title(mangaDtoRs.getTitle())
-                .volumes(mangaDtoRs.getVolumes())
-                .chapters(mangaDtoRs.getChapters())
-                .status(mangaDtoRs.getStatus())
-                .score(mangaDtoRs.getScore())
-                .releaseDate(mangaDtoRs.getReleaseDate())
-                .releaseYear(mangaDtoRs.getReleaseYear())
-                .endDate(mangaDtoRs.getEndDate())
-                .shikiId(mangaDtoRs.getShikiId())
-                .volumesEnd(mangaDtoRs.getVolumesEnd())
-                .chaptersEnd(mangaDtoRs.getChaptersEnd())
+                .id(source.getId())
+                .originalTitle(source.getOriginalTitle())
+                .title(source.getTitle())
+                .volumes(source.getVolumes())
+                .chapters(source.getChapters())
+                .status(source.getStatus())
+                .score(source.getScore())
+                .releaseDate(source.getReleaseDate())
+                .releaseYear(source.getReleaseYear())
+                .endDate(source.getEndDate())
+                .shikiId(source.getShikiId())
+                .volumesEnd(source.getVolumesEnd())
+                .chaptersEnd(source.getChaptersEnd())
                 .build();
     }
 }

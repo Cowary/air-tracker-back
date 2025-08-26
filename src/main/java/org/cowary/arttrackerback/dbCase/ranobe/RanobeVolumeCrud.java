@@ -31,13 +31,13 @@ public class RanobeVolumeCrud implements MediaCrud<RanobeVolume> {
         ranobeVolumeRepo.save(ranobeVolume);
     }
 
-    public void save(RanobeVolume ranobeVolume) {
+    public RanobeVolume save(RanobeVolume ranobeVolume) {
         ranobeVolume.setLastUpd(LocalDate.now());
         ranobeVolume.setUsrId(userService.getIdCurrentUser());
-        ranobeVolume.getRanobe().setLastUpd(LocalDate.now());
-        ranobeVolume.getRanobe().setUsrId(userService.getIdCurrentUser());
-        ranobeCrud.save(ranobeVolume.getRanobe());
-        ranobeVolumeRepo.save(ranobeVolume);
+//        ranobeVolume.getRanobe().setLastUpd(LocalDate.now());
+//        ranobeVolume.getRanobe().setUsrId(userService.getIdCurrentUser());
+//        ranobeCrud.save(ranobeVolume.getRanobe());
+        return ranobeVolumeRepo.save(ranobeVolume);
     }
 
 //    public List<RanobeVolume> getAll(String status) {

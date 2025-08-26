@@ -30,13 +30,14 @@ public class TvSeasonsCrud implements MediaCrud<TvSeason> {
         tvSeasonsRepo.save(tvSeason);
     }
 
-    public void save(TvSeason tvSeason) {
-        tvSeason.getTv().setLastUpd(LocalDate.now());
-        tvSeason.getTv().setUsrId(userService.getIdCurrentUser());
-        tvSeason.setUsrId(userService.getIdCurrentUser());
+    public TvSeason save(TvSeason tvSeason) {
+//        tvSeason.getTv().setLastUpd(LocalDate.now());
+//        tvSeason.getTv().setUsrId(userService.getIdCurrentUser());
+//        tvSeason.setUsrId(userService.getIdCurrentUser());
+        tvSeason.setUsrId(3L);
         tvSeason.setLastUpd(LocalDate.now());
-        tvCrud.save(tvSeason.getTv());
-        tvSeasonsRepo.save(tvSeason);
+//        tvCrud.save(tvSeason.getTv());
+        return tvSeasonsRepo.save(tvSeason);
     }
 
     @Override

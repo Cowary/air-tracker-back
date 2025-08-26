@@ -11,6 +11,10 @@ public class AppConfig {
     public String shikiUrl;
     @Value("${app.shiki.anime.url}")
     public String animeUrl;
+    @Value("${app.shiki.manga.url}")
+    public String mangaUrl;
+    @Value("${app.shiki.ranobe.url}")
+    public String ranobeUrl;
     @Value("${app.shiki.role.url}")
     public String roleUrl;
 }

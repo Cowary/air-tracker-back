@@ -7,18 +7,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ShikimoriApi {
     public AnimeApi animeApi;
-//    public MangaApi mangaApi;
-//    public RanobeApi ranobeApi;
-
-    public static MangaApi mangaApi() {
-//        return new MangaApi();
-        return null;
-    }
-
-    public static RanobeApi ranobeApi() {
-//        return new RanobeApi();
-        return null;
-    }
+    public MangaApi mangaApi;
+    public RanobeApi ranobeApi;
 
 
 }

@@ -2,6 +2,7 @@ package org.cowary.arttrackerback.rest.converter;
 
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.game.Game;
+import org.cowary.arttrackerback.rest.dto.request.GameDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.GameDtoRs;
 
 @UtilityClass
@@ -20,16 +21,16 @@ public class GameConverter {
                 .build();
     }
 
-    public static Game convert(GameDtoRs gameDtoRs) {
+    public static Game convert(GameDtoRq source) {
         return Game.builder()
-                .id(gameDtoRs.getId())
-                .title(gameDtoRs.getTitle())
-                .endDate(gameDtoRs.getEndDate())
-                .releaseDate(gameDtoRs.getReleaseDate())
-                .releaseYear(gameDtoRs.getReleaseYear())
-                .score(gameDtoRs.getScore())
-                .status(gameDtoRs.getStatus())
-                .usrId(gameDtoRs.getUsrId())
+                .id(source.getId())
+                .title(source.getTitle())
+                .endDate(source.getEndDate())
+                .releaseDate(source.getReleaseDate())
+                .releaseYear(source.getReleaseYear())
+                .score(source.getScore())
+                .status(source.getStatus())
+                .usrId(source.getUsrId())
                 .build();
     }
 }

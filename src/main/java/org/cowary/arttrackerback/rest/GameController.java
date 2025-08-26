@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.Setter;
 import org.cowary.arttrackerback.dbCase.game.GameCrud;
 import org.cowary.arttrackerback.rest.converter.GameConverter;
+import org.cowary.arttrackerback.rest.dto.request.GameDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.GameDtoRs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/title")
 @Setter
-public class GameController implements TitleController<GameDtoRs, GameDtoRs> {
+public class GameController implements TitleController<GameDtoRs, GameDtoRq> {
 
     @Autowired
     private GameCrud gameCrud;
@@ -42,20 +43,22 @@ public class GameController implements TitleController<GameDtoRs, GameDtoRs> {
 
     @Override
     @PostMapping("/game")
-    public ResponseEntity<GameDtoRs> postTitle(@Valid @RequestBody GameDtoRs title) {
+    public ResponseEntity<GameDtoRs> postTitle(@Valid @RequestBody GameDtoRq title) {
         var game = GameConverter.convert(title);
         gameCrud.save(game);
         title.setId(game.getId());
+        var rs = GameConverter.convert(game);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(title);
+                .body(rs);
     }
 
     @Override
     @PutMapping("/game")
-    public ResponseEntity<GameDtoRs> putTitle(@Valid @RequestBody GameDtoRs title) {
+    public ResponseEntity<GameDtoRs> putTitle(@Valid @RequestBody GameDtoRq title) {
         var game = GameConverter.convert(title);
-        gameCrud.save(game);
-        return ResponseEntity.ok(title);
+        game = gameCrud.save(game);
+        var rs = GameConverter.convert(game);
+        return ResponseEntity.ok(rs);
     }
 
     @Override

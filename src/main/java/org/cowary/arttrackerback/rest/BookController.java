@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.Setter;
 import org.cowary.arttrackerback.dbCase.book.BookCrud;
 import org.cowary.arttrackerback.rest.converter.BookDtoConverter;
+import org.cowary.arttrackerback.rest.dto.request.BookDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.BookDtoRs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/title")
 @Setter
-public class BookController implements TitleController<BookDtoRs, BookDtoRs> {
+public class BookController implements TitleController<BookDtoRs, BookDtoRq> {
 
     @Autowired
     private BookCrud bookCrud;
@@ -42,20 +43,22 @@ public class BookController implements TitleController<BookDtoRs, BookDtoRs> {
 
     @Override
     @PostMapping("/book")
-    public ResponseEntity<BookDtoRs> postTitle(@Valid @RequestBody BookDtoRs title) {
+    public ResponseEntity<BookDtoRs> postTitle(@Valid @RequestBody BookDtoRq title) {
         var book = BookDtoConverter.convert(title);
         bookCrud.save(book);
         title.setId(book.getId());
+        var rs = BookDtoConverter.convert(book);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(title);
+                .body(rs);
     }
 
     @Override
     @PutMapping("/book")
-    public ResponseEntity<BookDtoRs> putTitle(@Valid @RequestBody BookDtoRs title) {
+    public ResponseEntity<BookDtoRs> putTitle(@Valid @RequestBody BookDtoRq title) {
         var book = BookDtoConverter.convert(title);
-        bookCrud.save(book);
-        return ResponseEntity.ok(title);
+        book = bookCrud.save(book);
+        var rs = BookDtoConverter.convert(book);
+        return ResponseEntity.ok(rs);
     }
 
     @Override

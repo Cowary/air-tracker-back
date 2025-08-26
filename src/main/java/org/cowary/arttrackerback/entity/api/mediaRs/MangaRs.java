@@ -9,7 +9,6 @@ import org.cowary.arttrackerback.rest.dto.response.MangaDtoRs;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MangaRs implements MediaRs {
-
-    private MangaDtoRs manga;
+    private MangaDtoRs media;
     private String posterUrl;
 }

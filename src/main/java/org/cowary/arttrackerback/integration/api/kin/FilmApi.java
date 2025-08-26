@@ -1,11 +1,11 @@
 package org.cowary.arttrackerback.integration.api.kin;
 
 
-import org.cowary.arttrackerback.integration.util.ApiUrl;
-import org.cowary.arttrackerback.integration.util.RestTemp;
 import org.cowary.arttrackerback.integration.model.kin.KinFilmModel;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.cowary.arttrackerback.integration.model.kin.KinSearchModel;
+import org.cowary.arttrackerback.integration.util.ApiUrl;
+import org.cowary.arttrackerback.integration.util.RestTemp;
 import org.cowary.arttrackerback.util.ProperUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,8 +34,8 @@ public class FilmApi {
     }
 
     public KinFilmModel getById(int id) {
-        URL urlFilm = new ApiUrl("kin.properties")
-                .appendPathFromFile("URL_FILM")
+        URL urlFilm = new ApiUrl("https://kinopoiskapiunofficial.tech")
+                .appendPathFromFile("api/v2.2/films")
                 .appendPath(id)
                 .build();
 
@@ -46,8 +46,8 @@ public class FilmApi {
     }
 
     public List<KinResultModel> searchByKeyword(String keyword, List<String> type) {
-        URL urlSearch = new ApiUrl("kin.properties")
-                .appendPathFromFile("URL_SEARCH")
+        URL urlSearch = new ApiUrl("https://kinopoiskapiunofficial.tech")
+                .appendPathFromFile("api/v2.1/films/search-by-keyword")
                 .addQuery("keyword", keyword)
                 .addQuery("page", 1)
                 .build();
@@ -68,8 +68,8 @@ public class FilmApi {
     }
 
     private List<KinResultModel> searchByKeyword(String keyword, int page) {
-        URL urlSearch = new ApiUrl("kin.properties")
-                .appendPathFromFile("URL_SEARCH")
+        URL urlSearch = new ApiUrl("https://kinopoiskapiunofficial.tech")
+                .appendPathFromFile("api/v2.1/films/search-by-keyword")
                 .addQuery("keyword", keyword)
                 .addQuery("page", page)
                 .build();

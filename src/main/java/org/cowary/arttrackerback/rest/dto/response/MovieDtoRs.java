@@ -1,7 +1,5 @@
 package org.cowary.arttrackerback.rest.dto.response;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -16,16 +14,10 @@ import java.time.LocalDate;
 public class MovieDtoRs {
     Long id;
     String originalTitle;
-    @NotNull
-    @NotBlank
     String title;
-    @NotNull
     Integer releaseYear;
     Integer duration;
-    @NotNull
-    @NotBlank
     String status;
-    @NotNull
     Integer score;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     LocalDate endDate;

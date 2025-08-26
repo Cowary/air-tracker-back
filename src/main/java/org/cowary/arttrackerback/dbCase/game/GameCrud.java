@@ -27,11 +27,11 @@ public class GameCrud implements MediaCrud<Game> {
         return gameRepo.findById(id).orElseThrow();
     }
 
-    public void save(Game game) {
+    public Game save(Game game) {
         game.setLastUpd(LocalDate.now());
         game.setUsrId(userService.getIdCurrentUser());
         if(game.getReleaseDate() != null) game.setReleaseYear(DateUtil.getYear(game.getReleaseDate()));
-        gameRepo.save(game);
+        return gameRepo.save(game);
     }
 
     public void delete(Game game) {

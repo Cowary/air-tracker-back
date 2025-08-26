@@ -3,6 +3,7 @@ package org.cowary.arttrackerback.rest.converter;
 import lombok.experimental.UtilityClass;
 import org.cowary.arttrackerback.entity.ranobe.Ranobe;
 import org.cowary.arttrackerback.entity.ranobe.RanobeVolume;
+import org.cowary.arttrackerback.rest.dto.request.RanobeVolumeDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.RanobeDtoRs;
 import org.cowary.arttrackerback.rest.dto.response.RanobeVolumeDtoRs;
 
@@ -47,21 +48,27 @@ public class RanobeDtoConverter {
                 .status(ranobeVolume.getStatus())
                 .score(ranobeVolume.getScore())
                 .endDate(ranobeVolume.getEndDate())
-                .ranobe(convert(ranobeVolume.getRanobe()))
+//                .ranobe(convert(ranobeVolume.getRanobe()))
                 .usrId(ranobeVolume.getUsrId())
+                .integrationId(ranobeVolume.getIntegrationId())
+                .originalTitle(ranobeVolume.getOriginalTitle())
+                .releaseDate(ranobeVolume.getReleaseDate())
                 .build();
     }
 
-    public static RanobeVolume convert(RanobeVolumeDtoRs ranobeVolumeDtoRs) {
+    public static RanobeVolume convert(RanobeVolumeDtoRq source) {
         return RanobeVolume.builder()
-                .id(ranobeVolumeDtoRs.getId())
-                .title(ranobeVolumeDtoRs.getTitle())
-                .number(ranobeVolumeDtoRs.getNumber())
-                .status(ranobeVolumeDtoRs.getStatus())
-                .score(ranobeVolumeDtoRs.getScore())
-                .endDate(ranobeVolumeDtoRs.getEndDate())
-                .ranobe(convert(ranobeVolumeDtoRs.getRanobe()))
-                .usrId(ranobeVolumeDtoRs.getUsrId())
+                .id(source.getId())
+                .title(source.getTitle())
+                .originalTitle(source.getOriginalTitle())
+                .number(source.getNumber())
+                .status(source.getStatus())
+                .score(source.getScore())
+                .endDate(source.getEndDate())
+                .releaseDate(source.getReleaseDate())
+//                .ranobe(convert(ranobeVolumeDtoRs.getRanobe()))
+                .usrId(source.getUsrId())
+                .integrationId(source.getIntegrationId())
                 .build();
     }
 }
