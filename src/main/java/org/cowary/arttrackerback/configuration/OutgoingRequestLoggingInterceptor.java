@@ -43,9 +43,9 @@ public class OutgoingRequestLoggingInterceptor implements ClientHttpRequestInter
                 logMessage.append("Body: ").append(bodyString).append("\n");
             }
 
-            LOGGER.debug(logMessage.toString());
+            log.debug(logMessage.toString());
         } catch (Exception e) {
-            LOGGER.debug("Error logging outgoing request", e);
+            log.debug("Error logging outgoing request", e);
         }
     }
 
@@ -61,9 +61,9 @@ public class OutgoingRequestLoggingInterceptor implements ClientHttpRequestInter
                 logMessage.append("Body: ").append(body).append("\n");
             }
 
-            LOGGER.debug(logMessage.toString());
+            log.debug(logMessage.toString());
         } catch (Exception e) {
-            LOGGER.debug("Error logging outgoing response", e);
+            log.debug("Error logging outgoing response", e);
         }
     }
 
@@ -73,7 +73,7 @@ public class OutgoingRequestLoggingInterceptor implements ClientHttpRequestInter
                     new InputStreamReader(response.getBody(), StandardCharsets.UTF_8));
             return reader.lines().collect(Collectors.joining("\n"));
         } catch (Exception e) {
-            LOGGER.debug("Could not read response body", e);
+            log.debug("Could not read response body", e);
             return "";
         }
     }

@@ -33,15 +33,17 @@ public class IncomingRequestLoggingInterceptor implements HandlerInterceptor {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        logIncomingResponse(response);
+        ContentCachingResponseWrapper responseWrapper =
+                new ContentCachingResponseWrapper(response);
+        logIncomingResponse(responseWrapper);
 
-        if (response instanceof ContentCachingResponseWrapper) {
-            try {
-                ((ContentCachingResponseWrapper) response).copyBodyToResponse();
-            } catch (Exception e) {
-                LOGGER.error("Error copying response body", e);
-            }
-        }
+//        if (response instanceof ContentCachingResponseWrapper) {
+//            try {
+//                ((ContentCachingResponseWrapper) response).copyBodyToResponse();
+//            } catch (Exception e) {
+//                log.error("Error copying response body", e);
+//            }
+//        }
     }
 
     private void logIncomingRequest(HttpServletRequest request) {
@@ -64,9 +66,9 @@ public class IncomingRequestLoggingInterceptor implements HandlerInterceptor {
                 }
             }
 
-            LOGGER.debug(logMessage.toString());
+            log.debug(logMessage.toString());
         } catch (Exception e) {
-            LOGGER.error("Error logging incoming request", e);
+            log.error("Error logging incoming request", e);
         }
     }
 
@@ -84,9 +86,9 @@ public class IncomingRequestLoggingInterceptor implements HandlerInterceptor {
                 }
             }
 
-            LOGGER.debug(logMessage.toString());
+            log.debug(logMessage.toString());
         } catch (Exception e) {
-            LOGGER.error("Error logging incoming response", e);
+            log.error("Error logging incoming response", e);
         }
     }
 
