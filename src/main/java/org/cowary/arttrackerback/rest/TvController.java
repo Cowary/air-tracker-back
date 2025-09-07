@@ -91,7 +91,7 @@ public class TvController implements TitleController<TvSeasonDtoRs, TvSeasonDtoR
             findsList.add(fins);
         }
         var response = new FindMediaRs(findsList);
-        LOGGER.info("Return found tv: {}", response);
+        log.info("Return found tv: {}", response);
         return ResponseEntity.ok(new FindMediaRs(findsList));
     }
 

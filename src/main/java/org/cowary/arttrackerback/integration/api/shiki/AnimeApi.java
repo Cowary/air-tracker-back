@@ -26,8 +26,6 @@ public class AnimeApi extends TitleApi {
     }
 
     public AnimeModel getById(int id) {
-        AnimeModel model = super.getById(id, appConfig.animeUrl, AnimeModel.class);
-
-        return model;
+        return super.getById(id, appConfig.getAnimeUrl(), AnimeModel.class);
     }
 }

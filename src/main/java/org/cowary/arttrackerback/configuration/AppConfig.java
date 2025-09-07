@@ -1,20 +1,23 @@
 package org.cowary.arttrackerback.configuration;
 
-import lombok.Data;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-@Data
-@Configuration()
+@Configuration
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AppConfig {
     @Value("${app.shiki.base_url}")
-    public String shikiUrl;
+    String shikiUrl;
     @Value("${app.shiki.anime.url}")
-    public String animeUrl;
+    String animeUrl;
     @Value("${app.shiki.manga.url}")
-    public String mangaUrl;
+    String mangaUrl;
     @Value("${app.shiki.ranobe.url}")
-    public String ranobeUrl;
+    String ranobeUrl;
     @Value("${app.shiki.role.url}")
-    public String roleUrl;
+    String roleUrl;
 }

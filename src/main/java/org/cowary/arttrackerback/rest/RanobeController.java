@@ -63,7 +63,7 @@ public class RanobeController implements TitleController<RanobeVolumeDtoRs, Rano
     @Override
     @PostMapping("/ranobe")
     public ResponseEntity<RanobeVolumeDtoRs> postTitle(@Valid @RequestBody RanobeVolumeDtoRq title) {
-        LOGGER.info("Receive request on add ranobe: {}", title);
+        log.info("Receive request on add ranobe: {}", title);
         var ranobe = RanobeDtoConverter.convert(title);
         ranobeVolumeCrud.save(ranobe);
         title.setId(ranobe.getId());

@@ -13,12 +13,12 @@ abstract public class TitleApi {
     protected final AppConfig appConfig;
 
     public TitleApi(RestTemp restTemp, AppConfig appConfig) {
-        this.restTemp = new RestTemp();
+        this.restTemp = restTemp;
         this.appConfig = appConfig;
     }
 
     public <T> T searchByName(String keyword, String urlTitle, Class<T> responseType) {
-        URL url = new ApiUrl(appConfig.shikiUrl).appendPathFromFile(urlTitle)
+        URL url = new ApiUrl(appConfig.getShikiUrl()).appendPathFromFile(urlTitle)
                 .addQuery("search", keyword)
                 .addQuery("limit", 5)
                 .build();
@@ -27,7 +27,7 @@ abstract public class TitleApi {
     }
 
     public <T> T getById(int animeId, String urlTitle, Class<T> responseType) {
-        URL urlAnime = new ApiUrl(appConfig.shikiUrl).appendPathFromFile(urlTitle)
+        URL urlAnime = new ApiUrl(appConfig.getShikiUrl()).appendPathFromFile(urlTitle)
                 .appendPath(animeId)
                 .build();
 
@@ -35,9 +35,9 @@ abstract public class TitleApi {
     }
 
     public RoleModel[] getRoleById(int id, String urlTitle) {
-        URL urlRole = new ApiUrl(appConfig.shikiUrl).appendPathFromFile(urlTitle)
+        URL urlRole = new ApiUrl(appConfig.getShikiUrl()).appendPathFromFile(urlTitle)
                 .appendPath(id)
-                .appendPathFromFile(appConfig.roleUrl)
+                .appendPathFromFile(appConfig.getRoleUrl())
                 .build();
         return restTemp.getBody(urlRole, RoleModel[].class);
     }
