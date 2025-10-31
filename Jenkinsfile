@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE_NAME = 'Cowary/ArtTrackerBack'
+        DOCKER_IMAGE_NAME = 'cowary/art-tracker-back'
         DOCKER_TAG = "${BUILD_NUMBER}"
     }
 
