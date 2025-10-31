@@ -37,14 +37,8 @@ pipeline {
 
         stage('Login to Docker Registry') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds',
-                                                 passwordVariable: 'DOCKER_PASSWORD_FILE',
-                                                 usernameVariable: 'DOCKER_USERNAME')]) {
-                    sh '''
-                        echo "$DOCKER_PASSWORD_FILE" > /tmp/docker_password.txt
-                        docker login -u $DOCKER_USERNAME --password-stdin < /tmp/docker_password.txt
-                        rm /tmp/docker_password.txt # Удаляем файл после использования
-                    '''
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+                    sh "docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD"
                 }
             }
         }
