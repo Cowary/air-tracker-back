@@ -6,6 +6,10 @@ pipeline {
         DOCKER_TAG = "${BUILD_NUMBER}"
     }
 
+    parameters {
+        string(name: 'GIT_BRANCH', defaultValue: 'main', description: 'Git branch to checkout and build')
+    }
+
     stages {
         stage('Checkout') {
             steps {
