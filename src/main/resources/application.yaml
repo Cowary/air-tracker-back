@@ -1,0 +1,33 @@
+logging:
+  level:
+    # Уровень логирования для Spring
+    org.springframework: INFO
+    # Уровень логирования для вашего приложения (замените на ваш пакет)
+    org.cowary.arttrackerback: DEBUG
+
+  file:
+    name: logs/app.log
+spring:
+  application:
+    name: air-to-back
+  datasource:
+    url: ${db.url}
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      schema: public
+      username: ${db.username}
+      password: ${db.password}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      session.events.log.LOG_QUERIES_SLOWER_THAN_MS: 25
+app:
+  shiki:
+    base_url: https://shikimori.one/api
+    anime.url: /animes
+    manga.url: /mangas
+    ranobe.url: /ranobe
+    role.url: /roles
+
+

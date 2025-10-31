@@ -3,7 +3,11 @@ package org.cowary.arttrackerback.rest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.cowary.arttrackerback.dbCase.anime.AnimeCrud;
 import org.cowary.arttrackerback.entity.anime.Anime;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
@@ -15,7 +19,6 @@ import org.cowary.arttrackerback.rest.converter.AnimeDtoConverter;
 import org.cowary.arttrackerback.rest.dto.request.AnimeDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.AnimeDtoRs;
 import org.cowary.arttrackerback.util.DateFormat;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,11 +32,11 @@ import java.util.List;
 @RequestMapping("/title")
 @Setter
 @Validated
+@RequiredArgsConstructor
+@Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AnimeController implements TitleController<AnimeDtoRs, AnimeDtoRq>, FindController<AnimeRs> {
-
-    @Autowired
     private AnimeCrud animeCrud;
-    @Autowired
     private AnimeApi animeApi;
 
     @Override
@@ -91,9 +94,14 @@ public class AnimeController implements TitleController<AnimeDtoRs, AnimeDtoRq>,
         var animeModelList = animeApi.searchByName(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (AnimeModel animeModel : animeModelList) {
-            var releaseDate = animeModel.getAired_on() == null ? 0 : LocalDate.parse(animeModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()).getYear();
-            var fins = new Finds(animeModel.getName(), animeModel.getRussian(), animeModel.getScore(), animeModel.getEpisodes(),
-                    releaseDate, animeModel.getId());
+            var releaseDate = animeModel.getAired_on() == null ? 0 :
+                    LocalDate.parse(animeModel.getAired_on(), DateFormat.HTMLshort.getFormat().get()).getYear();
+            var fins = new Finds(animeModel.getName(),
+                    animeModel.getRussian(),
+                    animeModel.getScore(),
+                    animeModel.getEpisodes(),
+                    releaseDate,
+                    animeModel.getId());
             findsList.add(fins);
         }
         return ResponseEntity.ok(new FindMediaRs(findsList));
@@ -105,7 +113,12 @@ public class AnimeController implements TitleController<AnimeDtoRs, AnimeDtoRq>,
         //TODO: переделать
         var animeModel = animeApi.getById(id);
         var anime = new Anime(
-                animeModel.getName(), animeModel.getRussian(), animeModel.getEpisodes(), DateFormat.HTMLshort.parse(animeModel.getAired_on()), animeModel.getId(), animeModel.getDuration()
+                animeModel.getName(),
+                animeModel.getRussian(),
+                animeModel.getEpisodes(),
+                DateFormat.HTMLshort.parse(animeModel.getAired_on()),
+                animeModel.getId(),
+                animeModel.getDuration()
         );
         anime.setUsrId(3L);
         var animeDto = AnimeDtoConverter.convert(anime);

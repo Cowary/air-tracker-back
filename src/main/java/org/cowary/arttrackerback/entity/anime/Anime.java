@@ -13,7 +13,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString
-
 @Entity(name = "anime")
 @Builder
 @AllArgsConstructor
