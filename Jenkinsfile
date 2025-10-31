@@ -10,6 +10,10 @@ pipeline {
         string(name: 'GIT_BRANCH', defaultValue: 'main', description: 'Git branch to checkout and build')
     }
 
+    tools {
+        maven 'Maven 3.9.11'
+    }
+
     stages {
         stage('Checkout') {
             steps {
