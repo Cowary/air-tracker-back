@@ -44,7 +44,8 @@ class AnimeCrudTest {
     @Test
     void save() {
         var animeToSave = getAnime();
-        when(userService.getIdCurrentUser()).thenReturn(1L);
+        long expectedUserId = 3L;
+        when(userService.getIdCurrentUser()).thenReturn(expectedUserId);
 
         animeCrud.save(animeToSave);
 
@@ -54,7 +55,10 @@ class AnimeCrudTest {
                 .isEqualTo(LocalDate.now());
         Assertions.assertThat(animeToSave.getUsrId())
                 .isNotNull()
-                .isEqualTo(1L);
+                .isEqualTo(expectedUserId);
+
+        // Reset the mock to avoid UnnecessaryStubbingException for other tests
+        reset(userService);
     }
 
     @Test

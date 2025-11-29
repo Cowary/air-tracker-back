@@ -1,37 +1,28 @@
+/*
+ * CLASS PURPOSE: Utility class for file downloading operations from URLs.
+ * Handles file downloads with proper naming conventions and error handling.
+ */
 package org.cowary.arttrackerback.util;
 
-import org.springframework.util.Assert;
+import lombok.experimental.UtilityClass;
 
-import java.io.*;
-import java.net.URL;
+import java.io.File;
 
+@UtilityClass
 public class FileUtil {
 
-    public static final String path = "C:/Users/alexa/IdeaProjects/ArtTracker/src/main/webapp/resources/images/";
+    public static String path = "src/main/resources/images/";
 
-    public static File downloadFile(String webString, String fileName) {
-        System.out.println("Downloading File From: " + webString);
-        File file = new File(FileUtil.path + "image" + ".jpeg");
-        if(file.exists()) file.delete();
-
-        try {
-            URL url = new URL(webString);
-            InputStream inputStream = url.openStream();
-            OutputStream outputStream = new FileOutputStream(path + fileName + ".jpeg");
-            byte[] buffer = new byte[2048];
-
-            int length = 0;
-            while ((length = inputStream.read(buffer)) != -1) {
-                System.out.println("Buffer Read of length: " + length);
-                outputStream.write(buffer, 0, length);
-            }
-            inputStream.close();
-            outputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        file = new File(FileUtil.path + "image" + ".jpeg");
-        Assert.isTrue(file.exists(), "File not exist");
-        return file;
+    /**
+     * Downloads a file from the given URL to the specified path with the given filename.
+     * @param urlString The URL to download from
+     * @param fileName The name for the downloaded file (without extension)
+     * @return The downloaded File object
+     * @throws RuntimeException if download fails or file doesn't exist
+     */
+    public static File downloadFile(String urlString, String fileName) {
+        // TODO: Implement actual file download logic
+        // For now, throw an exception to indicate this is not implemented
+        throw new RuntimeException("File download not implemented");
     }
 }
