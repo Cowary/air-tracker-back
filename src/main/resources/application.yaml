@@ -1,10 +1,7 @@
 logging:
   level:
-    # Уровень логирования для Spring
     org.springframework: INFO
-    # Уровень логирования для вашего приложения (замените на ваш пакет)
-    org.cowary.arttrackerback: DEBUG
-
+    org.cowary.arttrackerback: INFO
   file:
     name: logs/app.log
 spring:
@@ -14,14 +11,16 @@ spring:
     url: ${db.url}
     driver-class-name: com.mysql.jdbc.Driver
     hikari:
-      schema: public
+      schema: myne
       username: ${db.username}
       password: ${db.password}
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: validate
     properties:
       session.events.log.LOG_QUERIES_SLOWER_THAN_MS: 25
+  liquibase:
+    enabled: true
 app:
   shiki:
     base_url: https://shikimori.one/api

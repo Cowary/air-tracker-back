@@ -1,0 +1,255 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="sasha (generated)" id="1764495145291-1">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="anime"/>
+            </not>
+        </preConditions>
+        <createTable tableName="anime">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORIGINAL_TITLE" type="VARCHAR(256)"/>
+            <column name="TITLE" type="VARCHAR(256)"/>
+            <column name="RELEASE_DATE" type="date"/>
+            <column name="EPISODES" type="INT"/>
+            <column name="EPISODES_END" type="INT"/>
+            <column name="STATUS" type="VARCHAR(64)"/>
+            <column name="SCORE" type="INT"/>
+            <column name="END_DATE" type="date"/>
+            <column name="DURATION" type="INT"/>
+            <column name="SHIKI_ID" type="INT"/>
+            <column name="RELEASE_YEAR" type="INT"/>
+            <column name="LAST_UPD" type="date"/>
+            <column name="USR_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-2">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="book"/>
+            </not>
+        </preConditions>
+        <createTable tableName="book">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORIGINAL_TITLE" type="VARCHAR(256)"/>
+            <column name="TITLE" type="VARCHAR(256)"/>
+            <column name="RELEASE_DATE" type="date"/>
+            <column name="STATUS" type="VARCHAR(64)"/>
+            <column name="SCORE" type="INT"/>
+            <column name="START_DATE" type="date"/>
+            <column name="END_DATE" type="date"/>
+            <column name="AUTHOR" type="VARCHAR(256)"/>
+            <column name="RELEASE_YEAR" type="INT"/>
+            <column name="LAST_UPD" type="date"/>
+            <column name="USR_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-3">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="game"/>
+            </not>
+        </preConditions>
+        <createTable tableName="game">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORIGINAL_TITLE" type="VARCHAR(256)"/>
+            <column name="TITLE" type="VARCHAR(256)"/>
+            <column name="RELEASE_DATE" type="date"/>
+            <column name="STATUS" type="VARCHAR(64)"/>
+            <column name="SCORE" type="INT"/>
+            <column name="START_DATE" type="date"/>
+            <column name="END_DATE" type="date"/>
+            <column name="RELEASE_YEAR" type="INT"/>
+            <column name="LAST_UPD" type="date"/>
+            <column name="USR_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-4">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="manga"/>
+            </not>
+        </preConditions>
+        <createTable tableName="manga">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORIGINAL_TITLE" type="VARCHAR(256)"/>
+            <column name="TITLE" type="VARCHAR(256)"/>
+            <column name="RELEASE_DATE" type="date"/>
+            <column name="VOLUMES" type="INT"/>
+            <column name="VOLUMES_END" type="INT"/>
+            <column name="CHAPTERS" type="INT"/>
+            <column name="CHAPTERS_END" type="INT"/>
+            <column name="STATUS" type="VARCHAR(64)"/>
+            <column name="SCORE" type="INT"/>
+            <column name="START_DATE" type="date"/>
+            <column name="END_DATE" type="date"/>
+            <column name="SHIKI_ID" type="INT"/>
+            <column name="RELEASE_YEAR" type="INT"/>
+            <column name="LAST_UPD" type="date"/>
+            <column name="USR_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-5">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="movie"/>
+            </not>
+        </preConditions>
+        <createTable tableName="movie">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORIGINAL_TITLE" type="VARCHAR(256)"/>
+            <column name="TITLE" type="VARCHAR(256)"/>
+            <column name="STATUS" type="VARCHAR(64)"/>
+            <column name="SCORE" type="INT"/>
+            <column name="END_DATE" type="date"/>
+            <column name="DURATION" type="INT"/>
+            <column name="RELEASE_YEAR" type="INT"/>
+            <column name="LAST_UPD" type="date"/>
+            <column name="USR_ID" type="BIGINT"/>
+            <column name="INTEGRATION_ID" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-6">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ranobe"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ranobe">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORIGINAL_TITLE" type="VARCHAR(256)"/>
+            <column name="TITLE" type="VARCHAR(256)"/>
+            <column name="RELEASE_DATE" type="date"/>
+            <column name="VOLUMES" type="INT"/>
+            <column name="SCORE" type="INT"/>
+            <column name="SHIKI_ID" type="INT"/>
+            <column name="RELEASE_YEAR" type="INT"/>
+            <column name="LAST_UPD" type="date"/>
+            <column name="USR_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-7">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="ranobe_volume"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ranobe_volume">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="TITLE" type="VARCHAR(512)"/>
+            <column name="NUMBER" type="INT"/>
+            <column name="STATUS" type="VARCHAR(64)"/>
+            <column name="SCORE" type="INT"/>
+            <column name="END_DATE" type="date"/>
+            <column name="LAST_UPD" type="date"/>
+            <column name="RANOBE_ID" type="BIGINT"/>
+            <column name="USR_ID" type="BIGINT"/>
+            <column name="INTEGRATION_ID" type="INT"/>
+            <column name="ORIGINAL_TITLE" type="VARCHAR(256)"/>
+            <column name="RELEASE_DATE" type="date"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-8">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="rle"/>
+            </not>
+        </preConditions>
+        <createTable tableName="rle">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(128)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-9">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tv"/>
+            </not>
+        </preConditions>
+        <createTable tableName="tv">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ORIGINAL_TITLE" type="VARCHAR(256)"/>
+            <column name="TITLE" type="VARCHAR(256)"/>
+            <column name="SCORE" type="INT"/>
+            <column name="SEASONS" type="INT"/>
+            <column name="RELEASE_YEAR" type="INT"/>
+            <column name="LAST_UPD" type="date"/>
+            <column name="USR_ID" type="BIGINT"/>
+            <column name="INTEGRATION_ID" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-10">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tv_seasons"/>
+            </not>
+        </preConditions>
+        <createTable tableName="tv_seasons">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="TITLE" type="VARCHAR(512)"/>
+            <column name="NUMBER" type="INT"/>
+            <column name="EPISODES" type="INT"/>
+            <column name="EPISODES_END" type="INT"/>
+            <column name="STATUS" type="VARCHAR(64)"/>
+            <column name="SCORE" type="INT"/>
+            <column name="END_DATE" type="date"/>
+            <column name="LAST_UPD" type="date"/>
+            <column name="TV_ID" type="BIGINT"/>
+            <column name="USR_ID" type="BIGINT"/>
+            <column name="ORIGINAL_TITLE" type="VARCHAR(512)"/>
+            <column name="RELEASE_YEAR" type="INT"/>
+            <column name="INTEGRATION_ID" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-11">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="usr"/>
+            </not>
+        </preConditions>
+        <createTable tableName="usr">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USERNAME" type="VARCHAR(128)"/>
+            <column name="PASSWORD" type="VARCHAR(512)"/>
+            <column name="ROLE" type="VARCHAR(128)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="sasha (generated)" id="1764495145291-12">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="usr_roles"/>
+            </not>
+        </preConditions>
+        <createTable tableName="usr_roles">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="USR_ID" type="BIGINT"/>
+            <column name="ROLES_ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

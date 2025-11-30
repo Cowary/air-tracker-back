@@ -1,0 +1,16 @@
+logging:
+  level:
+    org.springframework: INFO
+    org.cowary.arttrackerback: DEBUG
+  file:
+    name: logs/app.log
+spring:
+  application:
+    name: air-to-back
+  datasource:
+    url: jdbc:mysql://192.168.1.77:3307/myne
+    driver-class-name: com.mysql.jdbc.Driver
+    hikari:
+      schema: myne
+      username: rozemyne
+      password: test_db
