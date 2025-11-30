@@ -9,10 +9,12 @@
     <version>2.0.0</version>
     <packaging>jar</packaging>
 
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <mysql.version>9.3.0</mysql.version>
     </properties>
 
     <parent>
@@ -82,27 +84,13 @@
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>
-            <version>9.3.0</version>
+            <version>${mysql.version}</version>
         </dependency>
-
-        <!--        &lt;!&ndash; https://mvnrepository.com/artifact/com.auth0/java-jwt &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.auth0</groupId>-->
-        <!--            <artifactId>java-jwt</artifactId>-->
-        <!--            <version>4.3.0</version>-->
-        <!--        </dependency>-->
-        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>javax.xml.bind</groupId>-->
-<!--            <artifactId>jaxb-api</artifactId>-->
-<!--            <version>2.3.0</version>-->
-<!--        </dependency>-->
-        <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
@@ -122,10 +110,7 @@
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
         </dependency>
-
-
     </dependencies>
-
 
     <build>
         <plugins>
@@ -136,30 +121,14 @@
             <plugin>
                 <groupId>org.liquibase</groupId>
                 <artifactId>liquibase-maven-plugin</artifactId>
-<!--                <version>4.28.0</version> &lt;!&ndash; Используй актуальную версию или ту, что совместима с твоей версией Liquibase-core &ndash;&gt;-->
                 <configuration>
-                    <!-- Указываем URL, username, password -->
-                    <!-- Лучше брать из application.properties или Maven-профилей -->
-<!--                    <propertyFile>src/main/resources/application.yaml</propertyFile>-->
-                    <!-- Альтернатива: указать напрямую (не рекомендуется хранить пароли в pom.xml) -->
-                    <url>jdbc:mysql://192.168.1.77:3306/myne</url>
-                    <username>rozemyne</username>
-                    <password>okYk%p@VL2ZAuAmo</password>
-                    <!-- Указываем драйвер -->
                     <driver>com.mysql.cj.jdbc.Driver</driver>
-                    <!-- Указываем файл, в который будет записан результат generateChangeLog -->
-                    <outputChangeLogFile>src/main/resources/db/changelog/db.changelog-generated.xml</outputChangeLogFile>
-                    <!-- Указываем, где находятся уже существующие changelog файлы (если есть) -->
-                    <!-- Liquibase может использовать это для определения baseline, но для generateChangeLog это не обязательно -->
-                    <!-- <changeLogDirectory>src/main/resources/db/changelog</changeLogDirectory> -->
                 </configuration>
                 <dependencies>
-                    <!-- Убедимся, что Maven использует правильный JDBC-драйвер -->
                     <dependency>
                         <groupId>com.mysql</groupId>
                         <artifactId>mysql-connector-j</artifactId>
-                        <version>9.3.0</version>
-<!--                        <version>8.3.0</version> &lt;!&ndash; Используй версию, совпадающую с твоей зависимостью &ndash;&gt;-->
+                        <version>${mysql.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
