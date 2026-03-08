@@ -6,6 +6,7 @@ import org.cowary.arttrackerback.dbCase.game.GameCrud;
 import org.cowary.arttrackerback.rest.converter.GameConverter;
 import org.cowary.arttrackerback.rest.dto.request.GameDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.GameDtoRs;
+import org.cowary.arttrackerback.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,13 @@ public class GameController implements TitleController<GameDtoRs, GameDtoRq> {
 
     @Autowired
     private GameCrud gameCrud;
+    @Autowired
+    private UserService userService;
 
     @Override
     @GetMapping("/game")
-    public ResponseEntity<List<GameDtoRs>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<GameDtoRs>> getAllByUsrId() {
+        var userId = userService.getIdCurrentUser();
         var gameList = gameCrud.getAllByUserId(userId);
         var gameDtoList = gameList.stream().map(GameConverter::convert).toList();
         return ResponseEntity.ok(

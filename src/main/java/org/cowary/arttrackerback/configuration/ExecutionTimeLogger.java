@@ -22,7 +22,7 @@ public class ExecutionTimeLogger {
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getTarget().getClass().getSimpleName();
 
-        log.info("REST-method {}.{} finish for {} ms", className, methodName, duration);
+        log.debug("REST-method {}.{} finish for {} ms", className, methodName, duration);
 
         return result;
     }

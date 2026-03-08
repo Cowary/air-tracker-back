@@ -16,6 +16,7 @@ import org.cowary.arttrackerback.integration.model.shiki.RanobeModel;
 import org.cowary.arttrackerback.rest.converter.RanobeDtoConverter;
 import org.cowary.arttrackerback.rest.dto.request.RanobeVolumeDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.RanobeVolumeDtoRs;
+import org.cowary.arttrackerback.security.UserService;
 import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,10 +41,13 @@ public class RanobeController implements TitleController<RanobeVolumeDtoRs, Rano
     private RanobeCrud ranobeCrud;
     @Autowired
     private RanobeApi ranobeApi;
+    @Autowired
+    private UserService userService;
 
     @Override
     @GetMapping("/ranobe")
-    public ResponseEntity<List<RanobeVolumeDtoRs>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<RanobeVolumeDtoRs>> getAllByUsrId() {
+        var userId = userService.getIdCurrentUser();
         var ranobeVolumesList = ranobeVolumeCrud.getAllByUserId(userId);
         var ranobeVolumesDtoList = ranobeVolumesList.stream().map(RanobeDtoConverter::convert).toList();
         return ResponseEntity.ok(
@@ -118,7 +122,7 @@ public class RanobeController implements TitleController<RanobeVolumeDtoRs, Rano
 //        );
 //        var rs = Objects.requireNonNullElse(actualRanobe, ranobe);
         return ResponseEntity.ok(
-                new RanobeRs(RanobeDtoConverter.convert(ranobe), "https://dere.shikimori.me" + removeAfterJpg(ranobeModel.getImage().getOriginal()))
+                new RanobeRs(RanobeDtoConverter.convert(ranobe), "https://shikimori.io" + removeAfterJpg(ranobeModel.getImage().getOriginal()))
         );
 
     }

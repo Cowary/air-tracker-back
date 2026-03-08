@@ -15,6 +15,7 @@ import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.cowary.arttrackerback.rest.converter.TvConverter;
 import org.cowary.arttrackerback.rest.dto.request.TvSeasonDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.TvSeasonDtoRs;
+import org.cowary.arttrackerback.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +34,13 @@ public class TvController implements TitleController<TvSeasonDtoRs, TvSeasonDtoR
     private TvSeasonsCrud tvSeasonsCrud;
     @Autowired
     private TvCrud tvCrud;
+    @Autowired
+    private UserService userService;
 
     @Override
     @GetMapping("/tv")
-    public ResponseEntity<List<TvSeasonDtoRs>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<TvSeasonDtoRs>> getAllByUsrId() {
+        var userId = userService.getIdCurrentUser();
         var tvSeasonsList = tvSeasonsCrud.getAllByUserId(userId);
         var dtoList = tvSeasonsList.stream().map(TvConverter::convert).toList();
         return ResponseEntity.ok(

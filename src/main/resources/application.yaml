@@ -23,7 +23,7 @@ spring:
     enabled: true
 app:
   shiki:
-    base_url: https://shikimori.one/api
+    base_url: https://shikimori.io/api
     anime.url: /animes
     manga.url: /mangas
     ranobe.url: /ranobe

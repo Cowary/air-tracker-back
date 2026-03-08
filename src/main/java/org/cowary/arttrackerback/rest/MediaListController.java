@@ -10,6 +10,7 @@ import org.cowary.arttrackerback.dbCase.tv.TvSeasonsCrud;
 import org.cowary.arttrackerback.entity.Media;
 import org.cowary.arttrackerback.rest.dto.response.GameDtoRs;
 import org.cowary.arttrackerback.rest.dto.response.MediaDtoRs;
+import org.cowary.arttrackerback.security.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,12 +38,15 @@ public class MediaListController {
     BookCrud bookCrud;
     @Autowired
     TvSeasonsCrud tvSeasonsCrud;
+    @Autowired
+    UserService userService;
     ModelMapper modelMapper;
 
     @GetMapping("/media")
-    public ResponseEntity<List<MediaDtoRs>> getMediaList(@RequestHeader long userId,
+    public ResponseEntity<List<MediaDtoRs>> getMediaList(@RequestHeader(required = false) long userId,
                                                          @RequestParam(required = false, defaultValue = "") String status
     ) {
+        userId = userService.getIdCurrentUser();
         modelMapper = new ModelMapper();
         List<Media> mediaList = new ArrayList<>();
         mediaList.addAll(animeCrud.getAll(userId, status));

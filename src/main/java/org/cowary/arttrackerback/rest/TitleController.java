@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TitleController<RS, RQ> {
 
-    ResponseEntity<List<RS>> getAllByUsrId(@RequestHeader long userId);
+    ResponseEntity<List<RS>> getAllByUsrId();
 
     ResponseEntity<RS> getTitle(@PathVariable long titleId);
 

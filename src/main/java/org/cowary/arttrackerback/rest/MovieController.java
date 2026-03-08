@@ -17,6 +17,7 @@ import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.cowary.arttrackerback.rest.converter.MovieConverter;
 import org.cowary.arttrackerback.rest.dto.request.MovieDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.MovieDtoRs;
+import org.cowary.arttrackerback.security.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +32,12 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MovieController implements TitleController<MovieDtoRs, MovieDtoRq>, FindController<MovieRs> {
     MovieCrud movieCrud;
+    UserService userService;
 
     @Override
     @GetMapping("/movie")
-    public ResponseEntity<List<MovieDtoRs>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<MovieDtoRs>> getAllByUsrId() {
+        var userId = userService.getIdCurrentUser();
         var movieList = movieCrud.getAllByUserId(userId);
         var movieDtoList = movieList.stream().map(MovieConverter::convert).toList();
         return ResponseEntity.ok(

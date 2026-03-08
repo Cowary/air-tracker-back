@@ -14,6 +14,7 @@ import org.cowary.arttrackerback.integration.model.shiki.MangaModel;
 import org.cowary.arttrackerback.rest.converter.MangaDtoConverter;
 import org.cowary.arttrackerback.rest.dto.request.MangaDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.MangaDtoRs;
+import org.cowary.arttrackerback.security.UserService;
 import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,10 +37,13 @@ public class MangaController implements TitleController<MangaDtoRs, MangaDtoRq>,
     private MangaCrud mangaCrud;
     @Autowired
     private MangaApi mangaApi;
+    @Autowired
+    private UserService userService;
 
     @Override
     @GetMapping("/manga")
-    public ResponseEntity<List<MangaDtoRs>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<MangaDtoRs>> getAllByUsrId() {
+        var userId = userService.getIdCurrentUser();
         var mangaList = mangaCrud.findAllByUserId(userId);
         var mangaDtoList = mangaList.stream().map(MangaDtoConverter::convert).toList();
         return ResponseEntity.ok(
@@ -110,7 +114,7 @@ public class MangaController implements TitleController<MangaDtoRs, MangaDtoRq>,
         //TODO: переделать
         var mangaDto = MangaDtoConverter.convert(manga);
         return ResponseEntity.ok(
-                new MangaRs(mangaDto, "https://dere.shikimori.me" + removeAfterJpg(mangaModel.getImage().getOriginal()))
+                new MangaRs(mangaDto, "https://shikimori.io" + removeAfterJpg(mangaModel.getImage().getOriginal()))
         );
     }
 }

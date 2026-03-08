@@ -18,6 +18,7 @@ import org.cowary.arttrackerback.integration.model.shiki.AnimeModel;
 import org.cowary.arttrackerback.rest.converter.AnimeDtoConverter;
 import org.cowary.arttrackerback.rest.dto.request.AnimeDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.AnimeDtoRs;
+import org.cowary.arttrackerback.security.UserService;
 import org.cowary.arttrackerback.util.DateFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,10 +39,12 @@ import java.util.List;
 public class AnimeController implements TitleController<AnimeDtoRs, AnimeDtoRq>, FindController<AnimeRs> {
     private AnimeCrud animeCrud;
     private AnimeApi animeApi;
+    private UserService userService;
 
     @Override
     @GetMapping("/anime")
-    public ResponseEntity<List<AnimeDtoRs>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<AnimeDtoRs>> getAllByUsrId() {
+        var userId = userService.getIdCurrentUser();
         var animeList = animeCrud.getAllByUserId(userId);
         var animeDtoList = animeList.stream().map(AnimeDtoConverter::convert).toList();
         return ResponseEntity.ok(
@@ -126,7 +129,7 @@ public class AnimeController implements TitleController<AnimeDtoRs, AnimeDtoRq>,
             animeDto.setStatus("Planned");
         }
         return ResponseEntity.ok(
-                new AnimeRs(animeDto, "https://dere.shikimori.me" + removeAfterJpg(animeModel.getImage().getOriginal()))
+                new AnimeRs(animeDto, "https://shikimori.io" + removeAfterJpg(animeModel.getImage().getOriginal()))
         );
     }
 

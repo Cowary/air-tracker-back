@@ -6,6 +6,7 @@ import org.cowary.arttrackerback.dbCase.book.BookCrud;
 import org.cowary.arttrackerback.rest.converter.BookDtoConverter;
 import org.cowary.arttrackerback.rest.dto.request.BookDtoRq;
 import org.cowary.arttrackerback.rest.dto.response.BookDtoRs;
+import org.cowary.arttrackerback.security.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,13 @@ public class BookController implements TitleController<BookDtoRs, BookDtoRq> {
 
     @Autowired
     private BookCrud bookCrud;
+    @Autowired
+    private UserService userService;
 
     @Override
     @GetMapping("/book")
-    public ResponseEntity<List<BookDtoRs>> getAllByUsrId(@RequestHeader long userId) {
+    public ResponseEntity<List<BookDtoRs>> getAllByUsrId() {
+        var userId = userService.getIdCurrentUser();
         var bookList = bookCrud.getAllByUserId(userId);
         var bookDtoList = bookList.stream().map(BookDtoConverter::convert).toList();
         return ResponseEntity.ok(
