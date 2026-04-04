@@ -4,6 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE_NAME = 'cowary/art-tracker-back'
         DOCKER_TAG = "${BUILD_NUMBER}"
+        SONAR_HOST_URL = "http://192.168.1.77:9000"
     }
 
     parameters {
@@ -22,6 +23,34 @@ pipeline {
             }
         }
 
+        stage('Set up JDK') {
+            steps {
+                // Убедитесь, что JDK 17 (или нужная версия) установлена на агенте
+                // Или используйте tool 'OpenJDK 17' если настроена установка в Jenkins
+                sh 'java -version'
+            }
+        }
+
+        stage('Run Test') {
+            steps {
+                    sh """
+                        mvn clean compile test
+                    """
+            }
+        }
+
+//        stage('SonarQube Analysis') {
+//            steps {
+//                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+//                    sh """
+//                        mvn sonar:sonar -P sonar \\
+//                          -Dsonar.host.url=${env.SONAR_HOST_URL} \\
+//                          -Dsonar.token=\$SONAR_TOKEN
+//                    """
+//                }
+//            }
+//        }
+
         stage('Build JAR with Maven') {
             steps {
                 sh 'mvn clean package -DskipTests'
@@ -35,22 +64,61 @@ pipeline {
             }
         }
 
-        stage('Login to Docker Registry') {
+        stage('Docker Login') {
+            when {
+                expression { env.DOCKER_HUB_CREDENTIALS_ID != null }
+            }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                    sh '''
-                        docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-                    '''
+                echo 'Вход в Docker Hub...'
+                withCredentials([usernamePassword(
+                    credentialsId: env.DOCKER_HUB_CREDENTIALS_ID ?: 'docker-hub',
+                    usernameVariable: 'DOCKER_HUB_USER',
+                    passwordVariable: 'DOCKER_HUB_PASS'
+                )]) {
+                    sh 'echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin'
                 }
             }
         }
 
-        stage('Push Docker Image') {
+        // Пуш образа в registry
+        stage('Push Image') {
             steps {
-                sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}"
-                sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+                echo "Пуш образа ${DOCKER_IMAGE}:${params.DOCKER_TAG}..."
+                sh """
+                      docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}"
+                      docker push ${DOCKER_IMAGE_NAME}:latest"
+//                    docker push ${DOCKER_IMAGE}:${params.DOCKER_TAG}
+//                    docker push ${DOCKER_IMAGE}:${env.BUILD_NUMBER}
+                """
             }
         }
+
+        stage('Cleanup') {
+            steps {
+                echo 'Очистка локальных образов...'
+                sh """
+                    docker rmi ${DOCKER_IMAGE}:${params.DOCKER_TAG} || true
+                    docker rmi ${DOCKER_IMAGE}:latest || true
+                """
+            }
+        }
+
+//        stage('Login to Docker Registry') {
+//            steps {
+//                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+//                    sh '''
+//                        docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
+//                    '''
+//                }
+//            }
+//        }
+//
+//        stage('Push Docker Image') {
+//            steps {
+//                sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}"
+//                sh "docker push ${DOCKER_IMAGE_NAME}:latest"
+//            }
+//        }
     }
 
     post {
