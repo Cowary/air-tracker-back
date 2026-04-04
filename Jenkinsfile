@@ -3,7 +3,6 @@ pipeline {
 
     environment {
         DOCKER_IMAGE_NAME = 'cowary/art-tracker-back'
-        DOCKER_TAG = "${BUILD_NUMBER}"
         SONAR_HOST_URL = "http://192.168.1.77:9000"
         FORGEJO_REGISTRY = '192.168.1.77:3002'
         FORGEJO_IMAGE = "${FORGEJO_REGISTRY}/cowary/art-tracker-back"
@@ -22,6 +21,12 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+                script {
+                    env.DOCKER_TAG = sh(
+                        script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout",
+                        returnValue: 'stdout'
+                    ).trim()
+                }
             }
         }
 
