@@ -83,12 +83,10 @@ pipeline {
         // Пуш образа в registry
         stage('Push Image') {
             steps {
-                echo "Пуш образа ${DOCKER_IMAGE}:${params.DOCKER_TAG}..."
+                echo "Пуш образа ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}..."
                 sh """
-                      docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}"
-                      docker push ${DOCKER_IMAGE_NAME}:latest"
-//                    docker push ${DOCKER_IMAGE}:${params.DOCKER_TAG}
-//                    docker push ${DOCKER_IMAGE}:${env.BUILD_NUMBER}
+                    docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
+                    docker push ${DOCKER_IMAGE_NAME}:latest
                 """
             }
         }
@@ -97,8 +95,8 @@ pipeline {
             steps {
                 echo 'Очистка локальных образов...'
                 sh """
-                    docker rmi ${DOCKER_IMAGE}:${params.DOCKER_TAG} || true
-                    docker rmi ${DOCKER_IMAGE}:latest || true
+                    docker rmi ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} || true
+                    docker rmi ${DOCKER_IMAGE_NAME}:latest || true
                 """
             }
         }
