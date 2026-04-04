@@ -24,7 +24,7 @@ pipeline {
                 script {
                     env.DOCKER_TAG = sh(
                         script: "mvn help:evaluate -Dexpression=project.version -q -DforceStdout",
-                        returnValue: 'stdout'
+                        returnStdout: true
                     ).trim()
                 }
             }
