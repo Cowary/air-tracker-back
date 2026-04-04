@@ -5,6 +5,8 @@ pipeline {
         DOCKER_IMAGE_NAME = 'cowary/art-tracker-back'
         DOCKER_TAG = "${BUILD_NUMBER}"
         SONAR_HOST_URL = "http://192.168.1.77:9000"
+        FORGEJO_REGISTRY = '192.168.1.77:3002'
+        FORGEJO_IMAGE = "${FORGEJO_REGISTRY}/cowary/art-tracker-back"
     }
 
     parameters {
@@ -61,6 +63,21 @@ pipeline {
             steps {
                 sh "docker build -t ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} ."
                 sh "docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} ${DOCKER_IMAGE_NAME}:latest"
+                sh "docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} ${FORGEJO_IMAGE}:${DOCKER_TAG}"
+                sh "docker tag ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} ${FORGEJO_IMAGE}:latest"
+            }
+        }
+
+        stage('Docker Login to Forgejo') {
+            steps {
+                echo 'Вход в Forgejo registry...'
+                withCredentials([usernamePassword(
+                    credentialsId: 'forgejo-credentials',
+                    usernameVariable: 'FORGEJO_USER',
+                    passwordVariable: 'FORGEJO_TOKEN'
+                )]) {
+                    sh "echo $FORGEJO_TOKEN | docker login ${FORGEJO_REGISTRY} -u $FORGEJO_USER --password-stdin"
+                }
             }
         }
 
@@ -81,6 +98,16 @@ pipeline {
         }
 
         // Пуш образа в registry
+        stage('Push to Forgejo') {
+            steps {
+                echo "Пуш образа ${FORGEJO_IMAGE}:${DOCKER_TAG} в Forgejo..."
+                sh """
+                    docker push ${FORGEJO_IMAGE}:${DOCKER_TAG}
+                    docker push ${FORGEJO_IMAGE}:latest
+                """
+            }
+        }
+
         stage('Push Image') {
             steps {
                 echo "Пуш образа ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}..."
@@ -97,6 +124,9 @@ pipeline {
                 sh """
                     docker rmi ${DOCKER_IMAGE_NAME}:${DOCKER_TAG} || true
                     docker rmi ${DOCKER_IMAGE_NAME}:latest || true
+                    docker rmi ${FORGEJO_IMAGE}:${DOCKER_TAG} || true
+                    docker rmi ${FORGEJO_IMAGE}:latest || true
+                    docker logout ${FORGEJO_REGISTRY} || true
                 """
             }
         }
