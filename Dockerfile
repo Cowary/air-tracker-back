@@ -1,4 +1,4 @@
-FROM openjdk:17
+FROM eclipse-temurin:17-jdk
 VOLUME /tmp
 EXPOSE 8082
 ARG JAR_FILE=target/art-tracker-back.jar
