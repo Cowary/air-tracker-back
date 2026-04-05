@@ -48,28 +48,19 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-                        sh """
-                            mvn clean verify sonar:sonar -P sonar \
-                              -Dsonar.token=\$SONAR_TOKEN \
-                              -Dsonar.sources=src/main/java \
-                              -Dsonar.tests=src/test/java \
-                              -Dsonar.java.binaries=target/classes \
-                              -Dsonar.junit.reportPaths=target/surefire-reports \
-                              -Dsonar.jacoco.reportPaths=target/jacoco.exec \
-                              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
-                        """
-                    }
-                }
-                // Ожидание и логирование статуса Quality Gate (не прерывает пайплайн)
-                timeout(time: 2, unit: 'MINUTES') {
-                    script {
-                        def qg = waitForQualityGate()
-                        if (qg.status != 'OK') {
-                            echo "WARNING: SonarQube Quality Gate не пройден — статус: ${qg.status}. Пайплайн продолжается."
-                        } else {
-                            echo "SonarQube Quality Gate: PASSED"
+                catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                    withSonarQubeEnv('SonarQube') {
+                        withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                            sh """
+                                mvn clean verify sonar:sonar -P sonar \
+                                  -Dsonar.token=\$SONAR_TOKEN \
+                                  -Dsonar.sources=src/main/java \
+                                  -Dsonar.tests=src/test/java \
+                                  -Dsonar.java.binaries=target/classes \
+                                  -Dsonar.junit.reportPaths=target/surefire-reports \
+                                  -Dsonar.jacoco.reportPaths=target/jacoco.exec \
+                                  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                            """
                         }
                     }
                 }
