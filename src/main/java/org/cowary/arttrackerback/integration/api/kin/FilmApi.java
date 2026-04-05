@@ -1,15 +1,16 @@
 package org.cowary.arttrackerback.integration.api.kin;
 
 
+import org.cowary.arttrackerback.configuration.AppConfig;
 import org.cowary.arttrackerback.integration.model.kin.KinFilmModel;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.cowary.arttrackerback.integration.model.kin.KinSearchModel;
 import org.cowary.arttrackerback.integration.util.ApiUrl;
 import org.cowary.arttrackerback.integration.util.RestTemp;
-import org.cowary.arttrackerback.util.ProperUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Service;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -17,24 +18,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class FilmApi {
 
+    protected final AppConfig appConfig;
     protected final HttpEntity<String> request;
     protected final RestTemp restTemp = new RestTemp();
 
-    public FilmApi() {
-        ProperUtil properUtil = new ProperUtil("kin.properties");
+    public FilmApi(AppConfig appConfig) {
+        this.appConfig = appConfig;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.set(
                 "X-API-KEY",
-                properUtil.getProp("api-key")
+                appConfig.getKinoToken()
         );
         request = new HttpEntity<>(headers);
     }
 
     public KinFilmModel getById(int id) {
-        URL urlFilm = new ApiUrl("https://kinopoiskapiunofficial.tech")
+        URL urlFilm = new ApiUrl(appConfig.getKinoBaseUrl())
                 .appendPathFromFile("api/v2.2/films")
                 .appendPath(id)
                 .build();

@@ -28,5 +28,8 @@ app:
     manga.url: /mangas
     ranobe.url: /ranobe
     role.url: /roles
+  kino:
+    base_url: https://kinopoiskapiunofficial.tech
+    token: ${kino.token}
 
 

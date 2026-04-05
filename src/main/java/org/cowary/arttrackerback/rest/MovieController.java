@@ -12,7 +12,7 @@ import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.api.mediaRs.MovieRs;
 import org.cowary.arttrackerback.entity.movie.Movie;
-import org.cowary.arttrackerback.integration.api.kin.KinApi;
+import org.cowary.arttrackerback.integration.api.kin.FilmApi;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.cowary.arttrackerback.rest.converter.MovieConverter;
 import org.cowary.arttrackerback.rest.dto.request.MovieDtoRq;
@@ -33,6 +33,7 @@ import java.util.List;
 public class MovieController implements TitleController<MovieDtoRs, MovieDtoRq>, FindController<MovieRs> {
     MovieCrud movieCrud;
     UserService userService;
+    FilmApi filmApi;
 
     @Override
     @GetMapping("/movie")
@@ -85,7 +86,7 @@ public class MovieController implements TitleController<MovieDtoRs, MovieDtoRq>,
     @Override
     @GetMapping("/movie/find")
     public ResponseEntity<FindMediaRs> find(@RequestParam @NotBlank String keyword) {
-        var mediaModelList = KinApi.filmApi().searchByKeyword(keyword);
+        var mediaModelList = filmApi.searchByKeyword(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (KinResultModel kinResultModel : mediaModelList) {
             var year = Integer.valueOf(kinResultModel.getYear().equals("null") ? "0" : kinResultModel.getYear());
@@ -103,7 +104,7 @@ public class MovieController implements TitleController<MovieDtoRs, MovieDtoRq>,
     @Override
     @GetMapping("/movie/getByServiceId")
     public ResponseEntity<MovieRs> getByIntegrationID(@RequestParam @NotNull int id) {
-        var kinFilmModel = KinApi.filmApi().getById(id);
+        var kinFilmModel = filmApi.getById(id);
         var movie = new Movie(kinFilmModel.getNameOriginal(),
                 kinFilmModel.getNameRu(),
                 kinFilmModel.getYear(),

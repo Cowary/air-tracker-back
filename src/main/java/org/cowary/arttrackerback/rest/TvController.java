@@ -10,7 +10,7 @@ import org.cowary.arttrackerback.dbCase.tv.TvSeasonsCrud;
 import org.cowary.arttrackerback.entity.api.findRs.FindMediaRs;
 import org.cowary.arttrackerback.entity.api.findRs.Finds;
 import org.cowary.arttrackerback.entity.api.mediaRs.TvRs;
-import org.cowary.arttrackerback.integration.api.kin.KinApi;
+import org.cowary.arttrackerback.integration.api.kin.SerialApi;
 import org.cowary.arttrackerback.integration.model.kin.KinResultModel;
 import org.cowary.arttrackerback.rest.converter.TvConverter;
 import org.cowary.arttrackerback.rest.dto.request.TvSeasonDtoRq;
@@ -36,6 +36,8 @@ public class TvController implements TitleController<TvSeasonDtoRs, TvSeasonDtoR
     private TvCrud tvCrud;
     @Autowired
     private UserService userService;
+    @Autowired
+    private SerialApi serialApi;
 
     @Override
     @GetMapping("/tv")
@@ -87,7 +89,7 @@ public class TvController implements TitleController<TvSeasonDtoRs, TvSeasonDtoR
     @Override
     @GetMapping("/tv/find")
     public ResponseEntity<FindMediaRs> find(@RequestParam @NotBlank String keyword) {
-        var mediaModelList = KinApi.serialApi().searchByKeyword(keyword);
+        var mediaModelList = serialApi.searchByKeyword(keyword);
         List<Finds> findsList = new ArrayList<>();
         for (KinResultModel kinResultModel: mediaModelList) {
             var releaseYear = kinResultModel.getYear().equals("null") ? 0 : Integer.parseInt(kinResultModel.getYear());
@@ -102,7 +104,7 @@ public class TvController implements TitleController<TvSeasonDtoRs, TvSeasonDtoR
     @Override
     @GetMapping("/tv/getByServiceId")
     public ResponseEntity<TvRs> getByIntegrationID(@RequestParam @NotNull int id) {
-        var tvModel = KinApi.filmApi().getById(id);
+        var tvModel = serialApi.getById(id);
 
 //        var actualTv = tvCrud.findByOriginalTitleAndUserId(tvModel.getNameOriginal());
 //        var tv = new Tv(tvModel.getNameOriginal(), tvModel.getNameRu(), tvModel.getYear(), 1, id);
