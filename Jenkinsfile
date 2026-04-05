@@ -9,7 +9,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'GIT_BRANCH', defaultValue: 'main', description: 'Git branch to checkout and build')
+        string(name: 'GIT_BRANCH', defaultValue: 'master', description: 'Git branch to checkout and build')
     }
 
     tools {
@@ -160,6 +160,7 @@ pipeline {
                 }
             }
         }
+    }
 
     post {
         success {
