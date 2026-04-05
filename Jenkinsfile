@@ -64,11 +64,13 @@ pipeline {
                 }
                 // Ожидание и логирование статуса Quality Gate (не прерывает пайплайн)
                 timeout(time: 5, unit: 'MINUTES') {
-                    def qg = waitForQualityGate()
-                    if (qg.status != 'OK') {
-                        echo "WARNING: SonarQube Quality Gate не пройден — статус: ${qg.status}. Пайплайн продолжается."
-                    } else {
-                        echo "SonarQube Quality Gate: PASSED"
+                    script {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            echo "WARNING: SonarQube Quality Gate не пройден — статус: ${qg.status}. Пайплайн продолжается."
+                        } else {
+                            echo "SonarQube Quality Gate: PASSED"
+                        }
                     }
                 }
             }
