@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.cowary.arttrackerback.configuration.AppConfig;
@@ -26,13 +25,11 @@ public class HealthController {
             summary = "Проверка работоспособности",
             description = "Возвращает статус работоспособности сервиса и текущую версию приложения"
     )
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "Сервис работает корректно",
-                    content = @Content(schema = @Schema(implementation = HealthDto.class))
-            )
-    })
+    @ApiResponse(
+            responseCode = "200",
+            description = "Сервис работает корректно",
+            content = @Content(schema = @Schema(implementation = HealthDto.class))
+    )
     public HealthDto getHealth() {
         return HealthDto.builder().isHealthy(Boolean.TRUE).version(appConfig.getVersion()).build();
     }
