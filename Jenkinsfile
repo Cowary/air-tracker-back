@@ -9,7 +9,7 @@ pipeline {
     }
 
     parameters {
-        string(name: 'GIT_BRANCH', defaultValue: 'main', description: 'Git branch to checkout and build')
+        string(name: 'GIT_BRANCH', defaultValue: 'master', description: 'Git branch to checkout and build')
     }
 
     tools {
@@ -97,22 +97,6 @@ pipeline {
             }
         }
 
-        stage('Docker Login') {
-            when {
-                expression { env.DOCKER_HUB_CREDENTIALS_ID != null }
-            }
-            steps {
-                echo 'Вход в Docker Hub...'
-                withCredentials([usernamePassword(
-                    credentialsId: env.DOCKER_HUB_CREDENTIALS_ID ?: 'docker-hub',
-                    usernameVariable: 'DOCKER_HUB_USER',
-                    passwordVariable: 'DOCKER_HUB_PASS'
-                )]) {
-                    sh 'echo $DOCKER_HUB_PASS | docker login -u $DOCKER_HUB_USER --password-stdin'
-                }
-            }
-        }
-
         // Пуш образа в registry
         stage('Push to Forgejo') {
             steps {
@@ -120,16 +104,6 @@ pipeline {
                 sh """
                     docker push ${FORGEJO_IMAGE}:${DOCKER_TAG}
                     docker push ${FORGEJO_IMAGE}:latest
-                """
-            }
-        }
-
-        stage('Push Image') {
-            steps {
-                echo "Пуш образа ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}..."
-                sh """
-                    docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}
-                    docker push ${DOCKER_IMAGE_NAME}:latest
                 """
             }
         }
@@ -160,6 +134,7 @@ pipeline {
                 }
             }
         }
+    }
 
     post {
         success {

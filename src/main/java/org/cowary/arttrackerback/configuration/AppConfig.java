@@ -24,4 +24,6 @@ public class AppConfig {
     String kinoBaseUrl;
     @Value("${app.kino.token}")
     String kinoToken;
+    @Value("${app.version}")
+    String version;
 }
