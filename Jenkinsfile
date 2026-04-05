@@ -41,22 +41,33 @@ pipeline {
         stage('Run Test') {
             steps {
                     sh """
-                        mvn clean compile test
+                        mvn clean verify
                     """
             }
         }
 
-//        stage('SonarQube Analysis') {
-//            steps {
-//                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-//                    sh """
-//                        mvn sonar:sonar -P sonar \\
-//                          -Dsonar.host.url=${env.SONAR_HOST_URL} \\
-//                          -Dsonar.token=\$SONAR_TOKEN
-//                    """
-//                }
-//            }
-//        }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                        sh """
+                            mvn clean verify sonar:sonar -P sonar \
+                              -Dsonar.token=\$SONAR_TOKEN \
+                              -Dsonar.sources=src/main/java \
+                              -Dsonar.tests=src/test/java \
+                              -Dsonar.java.binaries=target/classes \
+                              -Dsonar.junit.reportPaths=target/surefire-reports \
+                              -Dsonar.jacoco.reportPaths=target/jacoco.exec \
+                              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                        """
+                    }
+                }
+                // Опционально: ожидание прохождения Quality Gate
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: false
+                }
+            }
+        }
 
         stage('Build JAR with Maven') {
             steps {
@@ -136,23 +147,19 @@ pipeline {
             }
         }
 
-//        stage('Login to Docker Registry') {
-//            steps {
-//                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-//                    sh '''
-//                        docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-//                    '''
-//                }
-//            }
-//        }
-//
-//        stage('Push Docker Image') {
-//            steps {
-//                sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}"
-//                sh "docker push ${DOCKER_IMAGE_NAME}:latest"
-//            }
-//        }
-    }
+        stage('Deploy to Home Server') {
+            steps {
+                sshagent(credentials: ['s2-server-ssh']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no sasha@192.168.1.77 '
+                            cd /home/sasha/docker/art-tracker &&
+                            docker compose pull &&
+                            docker compose up -d
+                        '
+                    """
+                }
+            }
+        }
 
     post {
         success {
