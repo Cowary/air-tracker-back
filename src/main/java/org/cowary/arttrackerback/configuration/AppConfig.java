@@ -20,4 +20,8 @@ public class AppConfig {
     String ranobeUrl;
     @Value("${app.shiki.role.url}")
     String roleUrl;
+    @Value("${app.kino.base_url}")
+    String kinoBaseUrl;
+    @Value("${app.kino.token}")
+    String kinoToken;
 }
