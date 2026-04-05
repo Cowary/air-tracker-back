@@ -136,23 +136,19 @@ pipeline {
             }
         }
 
-//        stage('Login to Docker Registry') {
-//            steps {
-//                withCredentials([usernamePassword(credentialsId: 'docker-hub-creds', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-//                    sh '''
-//                        docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
-//                    '''
-//                }
-//            }
-//        }
-//
-//        stage('Push Docker Image') {
-//            steps {
-//                sh "docker push ${DOCKER_IMAGE_NAME}:${DOCKER_TAG}"
-//                sh "docker push ${DOCKER_IMAGE_NAME}:latest"
-//            }
-//        }
-    }
+        stage('Deploy to Home Server') {
+            steps {
+                sshagent(credentials: ['s2-server-ssh']) {
+                    sh """
+                        ssh -o StrictHostKeyChecking=no sasha@192.168.1.77 '
+                            cd /home/sasha/docker/art-tracker &&
+                            docker compose pull &&
+                            docker compose up -d
+                        '
+                    """
+                }
+            }
+        }
 
     post {
         success {
