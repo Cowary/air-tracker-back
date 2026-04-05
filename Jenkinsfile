@@ -41,22 +41,33 @@ pipeline {
         stage('Run Test') {
             steps {
                     sh """
-                        mvn clean compile test
+                        mvn clean verify
                     """
             }
         }
 
-//        stage('SonarQube Analysis') {
-//            steps {
-//                withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
-//                    sh """
-//                        mvn sonar:sonar -P sonar \\
-//                          -Dsonar.host.url=${env.SONAR_HOST_URL} \\
-//                          -Dsonar.token=\$SONAR_TOKEN
-//                    """
-//                }
-//            }
-//        }
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    withCredentials([string(credentialsId: 'sonarqube-token', variable: 'SONAR_TOKEN')]) {
+                        sh """
+                            mvn clean verify sonar:sonar -P sonar \
+                              -Dsonar.token=\$SONAR_TOKEN \
+                              -Dsonar.sources=src/main/java \
+                              -Dsonar.tests=src/test/java \
+                              -Dsonar.java.binaries=target/classes \
+                              -Dsonar.junit.reportPaths=target/surefire-reports \
+                              -Dsonar.jacoco.reportPaths=target/jacoco.exec \
+                              -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+                        """
+                    }
+                }
+                // Опционально: ожидание прохождения Quality Gate
+                timeout(time: 5, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: false
+                }
+            }
+        }
 
         stage('Build JAR with Maven') {
             steps {
