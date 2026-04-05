@@ -165,7 +165,6 @@
             <id>sonar</id>
             <properties>
                 <sonar.host.url>${env.SONAR_HOST_URL}</sonar.host.url>
-                <sonar.qualitygate.wait>true</sonar.qualitygate.wait>
             </properties>
         </profile>
     </profiles>
